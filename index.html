@@ -497,7 +497,7 @@ async function searchClients() {
 
     if (PROXY_BASE && token) {
       // Appel via proxy Vercel
-      const r = await fetch(`${PROXY_BASE}/companies?search=${encodeURIComponent(q)}`, {
+      const r = await fetch(`${PROXY_BASE}?search=${encodeURIComponent(q)}`, {
         headers: { 'Authorization': `Bearer ${token}` }
       });
       if (!r.ok) throw new Error(`Erreur ${r.status}`);
