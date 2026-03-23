@@ -1,0 +1,805 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Aides & Subventions</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0f0f0f;
+    --surface: #1a1a1a;
+    --surface2: #242424;
+    --border: #2e2e2e;
+    --accent: #c8f135;
+    --accent2: #4fffb0;
+    --text: #f0f0f0;
+    --text2: #888;
+    --text3: #555;
+    --danger: #ff4d4d;
+    --info: #4fa3ff;
+    --radius: 12px;
+    --font-head: 'Syne', sans-serif;
+    --font-body: 'DM Sans', sans-serif;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: var(--bg); color: var(--text); font-family: var(--font-body); min-height: 100vh; }
+
+  /* NAV */
+  nav { display: flex; align-items: center; justify-content: space-between; padding: 20px 40px; border-bottom: 1px solid var(--border); position: sticky; top: 0; background: var(--bg); z-index: 100; }
+  .nav-logo { font-family: var(--font-head); font-weight: 800; font-size: 18px; letter-spacing: -0.5px; }
+  .nav-logo span { color: var(--accent); }
+  .nav-links { display: flex; gap: 8px; }
+  .nav-btn { background: none; border: 1px solid var(--border); color: var(--text2); font-family: var(--font-body); font-size: 13px; padding: 7px 16px; border-radius: 20px; cursor: pointer; transition: all .2s; }
+  .nav-btn:hover, .nav-btn.active { border-color: var(--accent); color: var(--accent); }
+
+  /* PAGES */
+  .page { display: none; }
+  .page.active { display: block; }
+
+  /* HERO */
+  .hero { padding: 60px 40px 40px; max-width: 960px; margin: 0 auto; }
+  .hero-tag { display: inline-block; background: var(--accent); color: #0f0f0f; font-family: var(--font-head); font-size: 11px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; padding: 5px 12px; border-radius: 20px; margin-bottom: 20px; }
+  .hero h1 { font-family: var(--font-head); font-size: clamp(32px, 5vw, 56px); font-weight: 800; line-height: 1.05; letter-spacing: -2px; margin-bottom: 12px; }
+  .hero h1 em { color: var(--accent); font-style: normal; }
+  .hero p { color: var(--text2); font-size: 15px; line-height: 1.7; max-width: 520px; }
+
+  /* TABS */
+  .tabs-wrap { max-width: 960px; margin: 0 auto; padding: 0 40px 24px; display: flex; gap: 4px; }
+  .tab { background: none; border: 1px solid var(--border); color: var(--text2); font-family: var(--font-body); font-size: 13px; padding: 8px 20px; border-radius: 20px; cursor: pointer; transition: all .2s; }
+  .tab:hover { border-color: var(--text3); color: var(--text); }
+  .tab.active { background: var(--surface2); border-color: var(--accent); color: var(--accent); }
+  .tab-content { display: none; }
+  .tab-content.active { display: block; }
+
+  /* PENNYLANE SEARCH */
+  .pl-wrap { max-width: 960px; margin: 0 auto; padding: 0 40px 40px; }
+  .pl-config { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 20px 24px; margin-bottom: 20px; display: flex; align-items: center; gap: 16px; flex-wrap: wrap; }
+  .pl-config label { font-size: 12px; color: var(--text3); white-space: nowrap; }
+  .pl-config select { background: var(--surface2); border: 1px solid var(--border); color: var(--text); font-family: var(--font-body); font-size: 13px; padding: 7px 12px; border-radius: 8px; outline: none; flex: 1; min-width: 160px; }
+  .pl-config select:focus { border-color: var(--accent); }
+  .pl-config-note { font-size: 12px; color: var(--text3); margin-left: auto; }
+  .search-bar { display: flex; gap: 10px; background: var(--surface); border: 1px solid var(--border); border-radius: 50px; padding: 8px 8px 8px 24px; transition: border-color .2s; margin-bottom: 16px; }
+  .search-bar:focus-within { border-color: var(--accent); }
+  .search-bar input { flex: 1; background: none; border: none; outline: none; color: var(--text); font-family: var(--font-body); font-size: 15px; }
+  .search-bar input::placeholder { color: var(--text3); }
+  .search-bar button { background: var(--accent); color: #0f0f0f; border: none; border-radius: 40px; padding: 10px 24px; font-family: var(--font-head); font-weight: 700; font-size: 13px; cursor: pointer; transition: opacity .2s; white-space: nowrap; }
+  .search-bar button:hover { opacity: .85; }
+  .search-bar button:disabled { opacity: .4; cursor: not-allowed; }
+
+  /* CLIENT RESULTS */
+  .client-list { display: grid; gap: 10px; margin-bottom: 32px; }
+  .client-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 16px 20px; cursor: pointer; transition: all .2s; display: flex; align-items: center; justify-content: space-between; gap: 16px; }
+  .client-card:hover { border-color: var(--accent); background: var(--surface2); }
+  .client-card.selected { border-color: var(--accent); background: var(--surface2); }
+  .client-card.selected::before { content: '✓'; color: var(--accent); font-weight: 700; margin-right: 8px; }
+  .client-info h4 { font-family: var(--font-head); font-size: 15px; font-weight: 700; margin-bottom: 4px; }
+  .client-meta { display: flex; gap: 10px; flex-wrap: wrap; }
+  .client-meta span { font-size: 12px; color: var(--text3); }
+  .client-meta .naf { color: var(--info); }
+  .client-arrow { color: var(--text3); font-size: 18px; }
+
+  /* PROFIL CLIENT SÉLECTIONNÉ */
+  .selected-client { background: var(--surface); border: 1px solid var(--accent); border-radius: var(--radius); padding: 20px 24px; margin-bottom: 24px; display: flex; align-items: center; gap: 20px; flex-wrap: wrap; }
+  .selected-client-info h3 { font-family: var(--font-head); font-size: 17px; font-weight: 800; margin-bottom: 6px; }
+  .selected-client-info .chips { display: flex; gap: 8px; flex-wrap: wrap; }
+  .chip { background: var(--surface2); border: 1px solid var(--border); font-size: 12px; padding: 4px 12px; border-radius: 20px; color: var(--text2); }
+  .chip.naf { border-color: var(--info); color: var(--info); }
+  .chip.secteur { border-color: var(--accent2); color: var(--accent2); }
+  .btn-change { background: none; border: 1px solid var(--border); color: var(--text3); font-size: 12px; padding: 6px 14px; border-radius: 20px; cursor: pointer; margin-left: auto; transition: all .2s; font-family: var(--font-body); }
+  .btn-change:hover { border-color: var(--text2); color: var(--text2); }
+
+  /* AIDES RESULTS */
+  .aides-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; flex-wrap: wrap; gap: 8px; }
+  .aides-header h3 { font-family: var(--font-head); font-size: 16px; font-weight: 700; }
+  .results-count { color: var(--text3); font-size: 13px; }
+  .results-count strong { color: var(--accent); }
+  .cards { display: grid; gap: 14px; }
+  .card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 22px; cursor: pointer; transition: all .2s; position: relative; overflow: hidden; }
+  .card::before { content: ''; position: absolute; top: 0; left: 0; width: 3px; height: 100%; background: var(--accent); opacity: 0; transition: opacity .2s; }
+  .card:hover { background: var(--surface2); transform: translateY(-1px); }
+  .card:hover::before { opacity: 1; }
+  .card-header { display: flex; align-items: flex-start; justify-content: space-between; gap: 16px; margin-bottom: 10px; }
+  .card-title { font-family: var(--font-head); font-size: 15px; font-weight: 700; line-height: 1.3; }
+  .card-amount { background: var(--accent); color: #0f0f0f; font-family: var(--font-head); font-weight: 700; font-size: 12px; padding: 4px 12px; border-radius: 20px; white-space: nowrap; flex-shrink: 0; }
+  .card-desc { color: var(--text2); font-size: 13px; line-height: 1.6; margin-bottom: 14px; }
+  .card-tags { display: flex; flex-wrap: wrap; gap: 6px; }
+  .tag { background: var(--surface2); border: 1px solid var(--border); color: var(--text3); font-size: 11px; padding: 3px 10px; border-radius: 20px; }
+  .tag.type { border-color: var(--accent2); color: var(--accent2); }
+  .tag.match { border-color: var(--accent); color: var(--accent); }
+  .empty-state { text-align: center; padding: 60px 20px; color: var(--text3); }
+  .empty-state .icon { font-size: 32px; margin-bottom: 12px; }
+
+  /* SEARCH MANUELLE */
+  .manual-wrap { max-width: 960px; margin: 0 auto; padding: 0 40px 40px; }
+  .filters-row { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 20px; }
+  .filter-chip { background: var(--surface); border: 1px solid var(--border); color: var(--text2); font-size: 12px; padding: 6px 14px; border-radius: 20px; cursor: pointer; transition: all .15s; user-select: none; }
+  .filter-chip:hover { border-color: var(--text3); color: var(--text); }
+  .filter-chip.active { background: var(--accent); border-color: var(--accent); color: #0f0f0f; font-weight: 500; }
+  .filter-label { color: var(--text3); font-size: 12px; padding: 6px 4px; align-self: center; }
+
+  /* MODAL */
+  .modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,.75); z-index: 200; backdrop-filter: blur(4px); }
+  .modal-overlay.open { display: flex; align-items: center; justify-content: center; padding: 20px; }
+  .modal { background: var(--surface); border: 1px solid var(--border); border-radius: 16px; max-width: 640px; width: 100%; max-height: 85vh; overflow-y: auto; padding: 36px; position: relative; }
+  .modal-close { position: absolute; top: 16px; right: 16px; background: var(--surface2); border: 1px solid var(--border); color: var(--text2); width: 32px; height: 32px; border-radius: 50%; cursor: pointer; font-size: 16px; display: flex; align-items: center; justify-content: center; }
+  .modal-close:hover { color: var(--text); }
+  .modal h2 { font-family: var(--font-head); font-size: 21px; font-weight: 800; margin-bottom: 8px; line-height: 1.3; }
+  .modal-amount-big { display: inline-block; background: var(--accent); color: #0f0f0f; font-family: var(--font-head); font-weight: 800; font-size: 16px; padding: 5px 16px; border-radius: 30px; margin-bottom: 24px; }
+  .modal-section { margin-bottom: 20px; }
+  .modal-section h3 { font-family: var(--font-head); font-size: 11px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: var(--text3); margin-bottom: 8px; }
+  .modal-section p, .modal-section li { color: var(--text2); font-size: 14px; line-height: 1.7; }
+  .modal-section ul { padding-left: 16px; }
+  .modal-section li { margin-bottom: 4px; }
+  .modal-link { display: inline-flex; align-items: center; gap: 6px; background: var(--surface2); border: 1px solid var(--border); color: var(--accent); font-size: 13px; padding: 8px 16px; border-radius: 8px; text-decoration: none; margin-top: 8px; margin-right: 8px; transition: border-color .2s; }
+  .modal-link:hover { border-color: var(--accent); }
+
+  /* ADMIN */
+  .admin-wrap { max-width: 820px; margin: 0 auto; padding: 60px 40px; }
+  .admin-wrap h2 { font-family: var(--font-head); font-size: 26px; font-weight: 800; margin-bottom: 6px; }
+  .admin-wrap .subtitle { color: var(--text2); font-size: 14px; margin-bottom: 36px; }
+  .admin-section { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 26px; margin-bottom: 20px; }
+  .admin-section h3 { font-family: var(--font-head); font-size: 15px; font-weight: 700; margin-bottom: 18px; display: flex; align-items: center; gap: 8px; }
+  .admin-section h3 .badge { background: var(--accent); color: #0f0f0f; font-size: 10px; padding: 2px 8px; border-radius: 10px; font-weight: 700; }
+
+  /* Cabinets config */
+  .cabinets-grid { display: grid; gap: 12px; }
+  .cabinet-row { display: grid; grid-template-columns: 1fr 1fr 2fr; gap: 10px; align-items: center; }
+  .cabinet-row label { font-size: 12px; color: var(--text3); }
+  .cabinet-row input { background: var(--surface2); border: 1px solid var(--border); color: var(--text); font-family: var(--font-body); font-size: 13px; padding: 8px 12px; border-radius: 8px; outline: none; }
+  .cabinet-row input:focus { border-color: var(--accent); }
+  .cabinet-row input[type="password"] { letter-spacing: 2px; }
+
+  .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  .form-group { display: flex; flex-direction: column; gap: 6px; }
+  .form-group.full { grid-column: 1 / -1; }
+  .form-group label { font-size: 12px; color: var(--text3); font-weight: 500; }
+  .form-group input, .form-group textarea, .form-group select { background: var(--surface2); border: 1px solid var(--border); color: var(--text); font-family: var(--font-body); font-size: 13px; padding: 9px 12px; border-radius: 8px; outline: none; transition: border-color .2s; }
+  .form-group input:focus, .form-group textarea:focus, .form-group select:focus { border-color: var(--accent); }
+  .form-group textarea { resize: vertical; min-height: 75px; }
+  .btn-primary { background: var(--accent); color: #0f0f0f; border: none; font-family: var(--font-head); font-weight: 700; font-size: 13px; padding: 10px 24px; border-radius: 8px; cursor: pointer; transition: opacity .2s; }
+  .btn-primary:hover { opacity: .85; }
+  .btn-secondary { background: none; border: 1px solid var(--border); color: var(--text2); font-family: var(--font-body); font-size: 13px; padding: 10px 24px; border-radius: 8px; cursor: pointer; transition: all .2s; }
+  .btn-secondary:hover { border-color: var(--text2); color: var(--text); }
+  .btn-row { display: flex; gap: 10px; margin-top: 18px; flex-wrap: wrap; }
+  .drop-zone { border: 2px dashed var(--border); border-radius: var(--radius); padding: 36px; text-align: center; color: var(--text3); cursor: pointer; transition: all .2s; }
+  .drop-zone:hover, .drop-zone.dragover { border-color: var(--accent); color: var(--accent); background: rgba(200,241,53,.03); }
+  .drop-zone p { font-size: 13px; margin-top: 8px; }
+  .admin-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  .admin-table th { text-align: left; color: var(--text3); font-weight: 500; font-size: 11px; letter-spacing: 1px; text-transform: uppercase; padding: 8px 10px; border-bottom: 1px solid var(--border); }
+  .admin-table td { padding: 11px 10px; border-bottom: 1px solid var(--border); color: var(--text2); vertical-align: middle; }
+  .admin-table tr:last-child td { border-bottom: none; }
+  .admin-table .name-cell { color: var(--text); font-weight: 500; max-width: 220px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .btn-del { background: none; border: none; color: var(--text3); cursor: pointer; font-size: 14px; padding: 4px 8px; border-radius: 4px; transition: color .2s; }
+  .btn-del:hover { color: var(--danger); }
+
+  /* PWD */
+  .pwd-gate { max-width: 340px; margin: 80px auto; padding: 36px; background: var(--surface); border: 1px solid var(--border); border-radius: 16px; text-align: center; }
+  .pwd-gate h2 { font-family: var(--font-head); font-size: 20px; font-weight: 800; margin-bottom: 6px; }
+  .pwd-gate p { color: var(--text2); font-size: 13px; margin-bottom: 20px; }
+  .pwd-gate input { width: 100%; background: var(--surface2); border: 1px solid var(--border); color: var(--text); font-family: var(--font-body); font-size: 15px; padding: 11px 16px; border-radius: 8px; outline: none; margin-bottom: 10px; text-align: center; letter-spacing: 4px; }
+  .pwd-gate input:focus { border-color: var(--accent); }
+  .pwd-err { color: var(--danger); font-size: 12px; min-height: 16px; margin-bottom: 8px; }
+
+  /* SPINNER */
+  .spinner { display: inline-block; width: 16px; height: 16px; border: 2px solid var(--border); border-top-color: var(--accent); border-radius: 50%; animation: spin .6s linear infinite; vertical-align: middle; margin-right: 6px; }
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  .toast { position: fixed; bottom: 24px; right: 24px; background: var(--surface2); border: 1px solid var(--accent); color: var(--accent); font-size: 13px; padding: 12px 20px; border-radius: 8px; z-index: 999; transform: translateY(80px); opacity: 0; transition: all .3s; pointer-events: none; }
+  .toast.show { transform: translateY(0); opacity: 1; }
+
+  @media (max-width: 620px) {
+    nav { padding: 14px 18px; }
+    .hero, .pl-wrap, .manual-wrap, .admin-wrap { padding-left: 18px; padding-right: 18px; }
+    .tabs-wrap { padding-left: 18px; }
+    .form-grid, .cabinet-row { grid-template-columns: 1fr; }
+    .hero h1 { font-size: 28px; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-logo">aides<span>.</span>pro</div>
+  <div class="nav-links">
+    <button class="nav-btn active" onclick="showPage('public')">Rechercher</button>
+    <button class="nav-btn" onclick="showPage('admin-gate')">Admin</button>
+  </div>
+</nav>
+
+<!-- PAGE PUBLIQUE -->
+<div id="page-public" class="page active">
+  <div class="hero">
+    <div class="hero-tag">Multi-cabinet</div>
+    <h1>Trouvez l'aide<br>qu'il vous <em>faut</em></h1>
+    <p>Recherchez un client Pennylane pour afficher automatiquement les aides correspondant à son profil.</p>
+  </div>
+
+  <div class="tabs-wrap">
+    <button class="tab active" onclick="switchTab('pennylane')">🔗 Via Pennylane</button>
+    <button class="tab" onclick="switchTab('manuel')">🔍 Recherche manuelle</button>
+  </div>
+
+  <!-- TAB PENNYLANE -->
+  <div id="tab-pennylane" class="tab-content active">
+    <div class="pl-wrap">
+      <div class="pl-config">
+        <label>Cabinet :</label>
+        <select id="cabinet-select" onchange="onCabinetChange()">
+          <option value="">-- Choisir un cabinet --</option>
+        </select>
+        <span class="pl-config-note" id="cabinet-status"></span>
+      </div>
+
+      <div id="pl-search-area" style="display:none">
+        <div class="search-bar">
+          <input type="text" id="pl-search-input" placeholder="Nom de l'entreprise cliente..." onkeydown="if(event.key==='Enter')searchClients()">
+          <button onclick="searchClients()" id="pl-search-btn">Rechercher</button>
+        </div>
+        <div id="pl-results"></div>
+      </div>
+
+      <div id="selected-client-wrap" style="display:none"></div>
+      <div id="aides-from-client"></div>
+    </div>
+  </div>
+
+  <!-- TAB MANUEL -->
+  <div id="tab-manuel" class="tab-content">
+    <div class="manual-wrap">
+      <div class="search-bar">
+        <input type="text" id="manual-search" placeholder="Rechercher une aide, un secteur, un mot-clé..." oninput="renderManual()">
+        <button onclick="renderManual()">Filtrer</button>
+      </div>
+      <div class="filters-row" id="filters-row">
+        <span class="filter-label">Type :</span>
+      </div>
+      <div class="results-count" id="manual-count" style="margin-bottom:16px"></div>
+      <div class="cards" id="manual-cards"></div>
+    </div>
+  </div>
+</div>
+
+<!-- PAGE ADMIN GATE -->
+<div id="page-admin-gate" class="page">
+  <div class="pwd-gate">
+    <h2>Accès admin</h2>
+    <p>Mot de passe requis pour gérer les aides et configurer les cabinets.</p>
+    <input type="password" id="pwd-input" placeholder="••••••••" onkeydown="if(event.key==='Enter')checkPwd()">
+    <div class="pwd-err" id="pwd-err"></div>
+    <button class="btn-primary" style="width:100%" onclick="checkPwd()">Accéder</button>
+  </div>
+</div>
+
+<!-- PAGE ADMIN -->
+<div id="page-admin" class="page">
+  <div class="admin-wrap">
+    <h2>Administration</h2>
+    <p class="subtitle">Gérez les cabinets, les aides et la base de données.</p>
+
+    <!-- Config cabinets -->
+    <div class="admin-section">
+      <h3>Cabinets Pennylane <span class="badge">CLÉS API</span></h3>
+      <p style="font-size:13px;color:var(--text3);margin-bottom:16px">Les clés sont stockées localement dans votre navigateur, jamais envoyées à un serveur tiers. Le proxy Vercel utilisera ces clés via ses variables d'environnement.</p>
+      <div class="cabinets-grid" id="cabinets-grid"></div>
+      <div class="btn-row">
+        <button class="btn-primary" onclick="saveCabinets()">Enregistrer les clés</button>
+        <button class="btn-secondary" onclick="testCabinet()">Tester la connexion</button>
+      </div>
+    </div>
+
+    <!-- Import JSON -->
+    <div class="admin-section">
+      <h3>Importer des aides <span class="badge">JSON</span></h3>
+      <div class="drop-zone" id="drop-zone" onclick="document.getElementById('file-input').click()" ondragover="dragOver(event)" ondragleave="dragLeave(event)" ondrop="dropFile(event)">
+        <div style="font-size:26px">📂</div>
+        <p>Glissez un fichier <strong>.json</strong> ici ou cliquez pour parcourir</p>
+        <p style="font-size:11px;margin-top:4px;color:var(--text3)">Fusionné avec la base existante</p>
+      </div>
+      <input type="file" id="file-input" accept=".json" style="display:none" onchange="importJSON(this)">
+    </div>
+
+    <!-- Ajouter manuellement -->
+    <div class="admin-section">
+      <h3>Ajouter une aide <span class="badge">MANUEL</span></h3>
+      <div class="form-grid">
+        <div class="form-group full"><label>Nom de l'aide *</label><input type="text" id="f-nom" placeholder="Ex: Subvention Prévention ergonomique"></div>
+        <div class="form-group"><label>Type *</label>
+          <select id="f-type"><option value="">-- Choisir --</option><option>Subvention</option><option>Exonération</option><option>Prêt</option><option>Crédit d'impôt</option><option>Aide à l'embauche</option><option>Autre</option></select>
+        </div>
+        <div class="form-group"><label>Montant max</label><input type="text" id="f-montant" placeholder="Ex: 50 000€"></div>
+        <div class="form-group"><label>Codes NAF concernés — séparés par virgule</label><input type="text" id="f-naf" placeholder="Ex: 43.99C, 41.20A"></div>
+        <div class="form-group"><label>Secteur(s) — séparés par virgule</label><input type="text" id="f-secteur" placeholder="Ex: BTP, Construction"></div>
+        <div class="form-group"><label>Taille — séparée par virgule</label><input type="text" id="f-taille" placeholder="Ex: TPE, PME"></div>
+        <div class="form-group"><label>Région</label><input type="text" id="f-region" placeholder="Ex: Toutes, Bretagne"></div>
+        <div class="form-group full"><label>Conditions / Description *</label><textarea id="f-conditions" placeholder="Décrivez les conditions d'éligibilité..."></textarea></div>
+        <div class="form-group"><label>Actions financées — séparées par virgule</label><input type="text" id="f-actions" placeholder="Ex: Formation, Équipement"></div>
+        <div class="form-group"><label>Tags — séparés par virgule</label><input type="text" id="f-tags" placeholder="Ex: ergonomie, TMS"></div>
+        <div class="form-group"><label>Lien source officiel</label><input type="url" id="f-source" placeholder="https://..."></div>
+        <div class="form-group"><label>Lien simulateur</label><input type="url" id="f-simu" placeholder="https://..."></div>
+      </div>
+      <div class="btn-row">
+        <button class="btn-primary" onclick="addAide()">Ajouter</button>
+        <button class="btn-secondary" onclick="clearForm()">Effacer</button>
+      </div>
+    </div>
+
+    <!-- Table des aides -->
+    <div class="admin-section">
+      <h3>Base actuelle <span class="badge" id="count-badge">0</span></h3>
+      <table class="admin-table">
+        <thead><tr><th>Nom</th><th>Type</th><th>Montant</th><th>NAF</th><th></th></tr></thead>
+        <tbody id="admin-table-body"></tbody>
+      </table>
+      <div class="btn-row" style="margin-top:20px">
+        <button class="btn-primary" onclick="exportJSON()">⬇ Exporter JSON</button>
+        <button class="btn-secondary" onclick="if(confirm('Réinitialiser ?')){aides=[...defaultAides];save();renderAll();}">Réinitialiser</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL -->
+<div class="modal-overlay" id="modal-overlay" onclick="closeModal(event)">
+  <div class="modal" id="modal-content"></div>
+</div>
+<div class="toast" id="toast"></div>
+
+<script>
+// ─── CONFIG ───────────────────────────────────────────────
+const ADMIN_PWD = "admin2024";
+// En prod Vercel, remplacer cette URL par votre proxy :
+// const PROXY_BASE = "https://votre-proxy.vercel.app/api/pennylane";
+const PROXY_BASE = null; // null = mode démo (données mockées)
+
+// ─── TABLE NAF → SECTEUR ──────────────────────────────────
+// Mapping simplifié des divisions NAF vers des secteurs lisibles
+const NAF_SECTEURS = {
+  "01":"Agriculture","02":"Sylviculture","03":"Pêche",
+  "05":"Extraction charbon","06":"Extraction pétrole","07":"Extraction minerais","08":"Autres extractions","09":"Services extraction",
+  "10":"Industrie alimentaire","11":"Boissons","12":"Tabac","13":"Textile","14":"Habillement","15":"Cuir","16":"Bois","17":"Papier","18":"Imprimerie","19":"Raffinage","20":"Chimie","21":"Pharmacie","22":"Plastique","23":"Minéraux","24":"Métallurgie","25":"Produits métalliques","26":"Électronique","27":"Équipements électriques","28":"Machines","29":"Véhicules","30":"Autres transports","31":"Meubles","32":"Autres industries","33":"Réparation machines",
+  "35":"Énergie","36":"Eau","37":"Assainissement","38":"Déchets","39":"Dépollution",
+  "41":"Construction bâtiment","42":"Génie civil","43":"Travaux spécialisés BTP",
+  "45":"Commerce auto","46":"Commerce de gros","47":"Commerce de détail",
+  "49":"Transports terrestres","50":"Transport eau","51":"Transport aérien","52":"Entreposage","53":"Poste et courrier",
+  "55":"Hébergement","56":"Restauration",
+  "58":"Édition","59":"Audiovisuel","60":"Radiodiffusion","61":"Télécommunications","62":"Informatique","63":"Services d'information",
+  "64":"Services financiers","65":"Assurance","66":"Activités financières auxiliaires",
+  "68":"Immobilier",
+  "69":"Juridique et comptable","70":"Conseil management","71":"Architecture et ingénierie","72":"Recherche et développement","73":"Publicité","74":"Activités spécialisées","75":"Vétérinaire",
+  "77":"Location","78":"Emploi","79":"Voyage","80":"Enquêtes et sécurité","81":"Services bâtiments","82":"Services administratifs",
+  "84":"Administration publique","85":"Enseignement",
+  "86":"Santé","87":"Hébergement médico-social","88":"Action sociale sans hébergement",
+  "90":"Arts et spectacles","91":"Bibliothèques","92":"Jeux et paris","93":"Sports et loisirs",
+  "94":"Associations","95":"Réparation informatique","96":"Services personnels","97":"Ménages employeurs","99":"Organisations extraterritoriales"
+};
+
+function nafToSecteur(code) {
+  if (!code) return null;
+  const div = code.replace(/\./g,'').substring(0,2);
+  return NAF_SECTEURS[div] || null;
+}
+
+// ─── DONNÉES ──────────────────────────────────────────────
+const defaultAides = [
+  {
+    "id": 1,
+    "nom": "Subvention Prévention des risques ergonomiques",
+    "type": "Subvention",
+    "naf_codes": [],
+    "secteur": ["HLM", "Sociétés anonymes HLM", "Fondations HLM"],
+    "taille": ["TPE", "PME", "Grande entreprise"],
+    "region": "Toutes",
+    "montant_max": "50 000€",
+    "actions_financees": ["Diagnostics ergonomiques","Formations","Équipements","Actions de sensibilisation","Aménagements de poste","Frais de personnel"],
+    "conditions": "Accord de branche HLM. Prévention des troubles musculosquelettiques (TMS). Demandes sur net-entreprises.fr.",
+    "source": "https://www.ameli.fr/entreprise",
+    "simulateur": "https://www.net-entreprises.fr",
+    "tags": ["ergonomie","TMS","prévention","risques professionnels","HLM"]
+  }
+];
+
+let aides = JSON.parse(localStorage.getItem('aides_db') || 'null') || [...defaultAides];
+let activeFilters = new Set();
+let selectedClient = null;
+
+// ─── CABINETS ─────────────────────────────────────────────
+const CABINET_NAMES = ["Cabinet 1","Cabinet 2","Cabinet 3","Cabinet 4"];
+
+function loadCabinets() {
+  return JSON.parse(localStorage.getItem('cabinets_cfg') || 'null') ||
+    CABINET_NAMES.map((n,i) => ({ id: i+1, name: n, token: '' }));
+}
+function saveCabinets() {
+  const rows = document.querySelectorAll('.cabinet-row-data');
+  const data = [...rows].map(r => ({
+    id: parseInt(r.dataset.id),
+    name: r.querySelector('.c-name').value.trim(),
+    token: r.querySelector('.c-token').value.trim()
+  }));
+  localStorage.setItem('cabinets_cfg', JSON.stringify(data));
+  populateCabinetSelect();
+  showToast('Cabinets enregistrés ✓');
+}
+
+function populateCabinetSelect() {
+  const cabinets = loadCabinets();
+  const sel = document.getElementById('cabinet-select');
+  const current = sel.value;
+  sel.innerHTML = '<option value="">-- Choisir un cabinet --</option>';
+  cabinets.forEach(c => {
+    const opt = document.createElement('option');
+    opt.value = c.id;
+    opt.textContent = c.name || `Cabinet ${c.id}`;
+    sel.appendChild(opt);
+  });
+  if (current) sel.value = current;
+}
+
+function renderCabinetsAdmin() {
+  const cabinets = loadCabinets();
+  const grid = document.getElementById('cabinets-grid');
+  grid.innerHTML = `
+    <div style="display:grid;grid-template-columns:1fr 1fr 2fr;gap:10px;margin-bottom:6px">
+      <span style="font-size:11px;color:var(--text3);letter-spacing:1px;text-transform:uppercase">Nom</span>
+      <span style="font-size:11px;color:var(--text3);letter-spacing:1px;text-transform:uppercase">Token API</span>
+      <span></span>
+    </div>
+  ` + cabinets.map(c => `
+    <div class="cabinet-row cabinet-row-data" data-id="${c.id}">
+      <input class="c-name" type="text" value="${c.name}" placeholder="Nom du cabinet">
+      <input class="c-token" type="password" value="${c.token}" placeholder="Bearer token Pennylane">
+    </div>
+  `).join('');
+}
+
+function onCabinetChange() {
+  const val = document.getElementById('cabinet-select').value;
+  const area = document.getElementById('pl-search-area');
+  const status = document.getElementById('cabinet-status');
+  if (!val) { area.style.display = 'none'; status.textContent = ''; return; }
+  const cabinets = loadCabinets();
+  const cab = cabinets.find(c => c.id == val);
+  if (!cab || !cab.token) {
+    status.style.color = 'var(--danger)';
+    status.textContent = '⚠ Clé API non configurée (admin)';
+    area.style.display = 'none';
+  } else {
+    status.style.color = 'var(--accent2)';
+    status.textContent = '✓ Cabinet connecté';
+    area.style.display = 'block';
+  }
+  resetClientSelection();
+}
+
+function getSelectedToken() {
+  const val = document.getElementById('cabinet-select').value;
+  if (!val) return null;
+  const cabinets = loadCabinets();
+  const cab = cabinets.find(c => c.id == val);
+  return cab ? cab.token : null;
+}
+
+// ─── RECHERCHE PENNYLANE ──────────────────────────────────
+async function searchClients() {
+  const q = document.getElementById('pl-search-input').value.trim();
+  if (!q) return;
+  const token = getSelectedToken();
+  const btn = document.getElementById('pl-search-btn');
+  const res = document.getElementById('pl-results');
+
+  btn.disabled = true;
+  btn.innerHTML = '<span class="spinner"></span>Recherche...';
+  res.innerHTML = '';
+
+  try {
+    let companies = [];
+
+    if (PROXY_BASE && token) {
+      // Appel via proxy Vercel
+      const r = await fetch(`${PROXY_BASE}/companies?search=${encodeURIComponent(q)}`, {
+        headers: { 'Authorization': `Bearer ${token}` }
+      });
+      if (!r.ok) throw new Error(`Erreur ${r.status}`);
+      const data = await r.json();
+      companies = data.items || [];
+    } else {
+      // Mode démo — données mockées
+      await new Promise(r => setTimeout(r, 600));
+      companies = [
+        { id: 22404666, name: "AVCI", siren: "753428747", activity_code: "43.99C", city: "CHÂTEAUBRIANT", postal_code: "44110" },
+        { id: 22404667, name: "AVCI SERVICES", siren: "812345678", activity_code: "43.21A", city: "NANTES", postal_code: "44000" }
+      ].filter(c => c.name.toLowerCase().includes(q.toLowerCase()));
+    }
+
+    if (!companies.length) {
+      res.innerHTML = `<div class="empty-state"><div class="icon">🔍</div><p>Aucun client trouvé pour « ${q} »</p></div>`;
+    } else {
+      res.innerHTML = `<div class="client-list">${companies.map(c => {
+        const secteur = nafToSecteur(c.activity_code);
+        return `<div class="client-card" onclick="selectClient(${JSON.stringify(c).replace(/"/g,'&quot;')})">
+          <div class="client-info">
+            <h4>${c.name}</h4>
+            <div class="client-meta">
+              <span>SIREN : ${c.siren}</span>
+              <span class="naf">NAF : ${c.activity_code}${secteur ? ` — ${secteur}` : ''}</span>
+              <span>📍 ${c.city} (${c.postal_code})</span>
+            </div>
+          </div>
+          <div class="client-arrow">›</div>
+        </div>`;
+      }).join('')}</div>`;
+    }
+  } catch(e) {
+    res.innerHTML = `<div class="empty-state"><div class="icon">⚠️</div><p>Erreur de connexion : ${e.message}</p></div>`;
+  }
+
+  btn.disabled = false;
+  btn.textContent = 'Rechercher';
+}
+
+function selectClient(client) {
+  selectedClient = client;
+  document.getElementById('pl-results').innerHTML = '';
+  document.getElementById('pl-search-input').value = '';
+
+  const secteur = nafToSecteur(client.activity_code);
+  const wrap = document.getElementById('selected-client-wrap');
+  wrap.style.display = 'block';
+  wrap.innerHTML = `
+    <div class="selected-client">
+      <div class="selected-client-info">
+        <h3>${client.name}</h3>
+        <div class="chips">
+          <span class="chip">SIREN : ${client.siren}</span>
+          <span class="chip naf">NAF : ${client.activity_code}</span>
+          ${secteur ? `<span class="chip secteur">${secteur}</span>` : ''}
+          <span class="chip">📍 ${client.city}</span>
+        </div>
+      </div>
+      <button class="btn-change" onclick="resetClientSelection()">Changer de client</button>
+    </div>
+  `;
+
+  renderAidesFromClient(client);
+}
+
+function renderAidesFromClient(client) {
+  const secteur = nafToSecteur(client.activity_code);
+  const nafCode = client.activity_code;
+  const region = client.postal_code ? getRegionFromPostal(client.postal_code) : null;
+
+  // Scoring : NAF exact > secteur > tous
+  const scored = aides.map(a => {
+    let score = 0;
+    const matchNaf = (a.naf_codes||[]).some(n => n.replace(/\./g,'').toLowerCase() === nafCode.replace(/\./g,'').toLowerCase());
+    const matchSecteur = secteur && (a.secteur||[]).some(s => s.toLowerCase().includes(secteur.toLowerCase()) || secteur.toLowerCase().includes(s.toLowerCase()));
+    const matchRegion = !a.region || a.region === 'Toutes' || (region && a.region.toLowerCase().includes(region.toLowerCase()));
+    if (matchNaf) score += 3;
+    if (matchSecteur) score += 2;
+    if (matchRegion) score += 1;
+    return { ...a, score, matchNaf, matchSecteur };
+  }).sort((a,b) => b.score - a.score);
+
+  const container = document.getElementById('aides-from-client');
+
+  if (!aides.length) {
+    container.innerHTML = `<div class="empty-state"><div class="icon">📂</div><p>Aucune aide dans la base. Ajoutez-en via l'admin.</p></div>`;
+    return;
+  }
+
+  container.innerHTML = `
+    <div class="aides-header">
+      <h3>Aides potentielles</h3>
+      <div class="results-count"><strong>${scored.length}</strong> aide${scored.length>1?'s':''} analysée${scored.length>1?'s':''}</div>
+    </div>
+    <div class="cards">
+      ${scored.map(a => `
+        <div class="card" onclick="openModal(${a.id})">
+          <div class="card-header">
+            <div class="card-title">${a.nom}</div>
+            ${a.montant_max ? `<div class="card-amount">${a.montant_max}</div>` : ''}
+          </div>
+          <div class="card-desc">${(a.conditions||'').substring(0,130)}${(a.conditions||'').length>130?'…':''}</div>
+          <div class="card-tags">
+            ${a.type ? `<span class="tag type">${a.type}</span>` : ''}
+            ${a.matchNaf ? `<span class="tag match">✓ NAF correspondant</span>` : ''}
+            ${a.matchSecteur && !a.matchNaf ? `<span class="tag match">✓ Secteur proche</span>` : ''}
+            ${(a.tags||[]).slice(0,3).map(t=>`<span class="tag">${t}</span>`).join('')}
+          </div>
+        </div>
+      `).join('')}
+    </div>
+  `;
+}
+
+function getRegionFromPostal(cp) {
+  const d = cp.substring(0,2);
+  const map = { '75':'Île-de-France','77':'Île-de-France','78':'Île-de-France','91':'Île-de-France','92':'Île-de-France','93':'Île-de-France','94':'Île-de-France','95':'Île-de-France','44':'Pays de la Loire','49':'Pays de la Loire','53':'Pays de la Loire','72':'Pays de la Loire','85':'Pays de la Loire','33':'Nouvelle-Aquitaine','64':'Nouvelle-Aquitaine','13':'PACA','06':'PACA','69':'Auvergne-Rhône-Alpes','38':'Auvergne-Rhône-Alpes','31':'Occitanie','34':'Occitanie','59':'Hauts-de-France','62':'Hauts-de-France','67':'Grand Est','68':'Grand Est','35':'Bretagne','22':'Bretagne','29':'Bretagne','56':'Bretagne' };
+  return map[d] || null;
+}
+
+function resetClientSelection() {
+  selectedClient = null;
+  document.getElementById('selected-client-wrap').style.display = 'none';
+  document.getElementById('aides-from-client').innerHTML = '';
+  document.getElementById('pl-results').innerHTML = '';
+  document.getElementById('pl-search-input').value = '';
+}
+
+// ─── RECHERCHE MANUELLE ───────────────────────────────────
+function buildFilters() {
+  const row = document.getElementById('filters-row');
+  row.innerHTML = '<span class="filter-label">Type :</span>';
+  [...new Set(aides.map(a=>a.type).filter(Boolean))].forEach(t => {
+    const c = document.createElement('div');
+    c.className = 'filter-chip' + (activeFilters.has(t)?' active':'');
+    c.textContent = t;
+    c.onclick = () => { activeFilters.has(t)?activeFilters.delete(t):activeFilters.add(t); buildFilters(); renderManual(); };
+    row.appendChild(c);
+  });
+}
+
+function renderManual() {
+  const q = document.getElementById('manual-search').value.toLowerCase().trim();
+  const filtered = aides.filter(a => {
+    if (activeFilters.size && !activeFilters.has(a.type)) return false;
+    if (!q) return true;
+    return [a.nom,a.type,a.conditions,a.region,...(a.secteur||[]),...(a.tags||[]),...(a.naf_codes||[])].join(' ').toLowerCase().includes(q);
+  });
+  document.getElementById('manual-count').innerHTML = `<strong>${filtered.length}</strong> aide${filtered.length>1?'s':''} trouvée${filtered.length>1?'s':''}`;
+  const cards = document.getElementById('manual-cards');
+  if (!filtered.length) { cards.innerHTML = `<div class="empty-state"><div class="icon">🔍</div><p>Aucun résultat.</p></div>`; return; }
+  cards.innerHTML = filtered.map(a => `
+    <div class="card" onclick="openModal(${a.id})">
+      <div class="card-header">
+        <div class="card-title">${a.nom}</div>
+        ${a.montant_max?`<div class="card-amount">${a.montant_max}</div>`:''}
+      </div>
+      <div class="card-desc">${(a.conditions||'').substring(0,130)}${(a.conditions||'').length>130?'…':''}</div>
+      <div class="card-tags">
+        ${a.type?`<span class="tag type">${a.type}</span>`:''}
+        ${(a.secteur||[]).slice(0,2).map(s=>`<span class="tag">${s}</span>`).join('')}
+        ${(a.tags||[]).slice(0,3).map(t=>`<span class="tag">${t}</span>`).join('')}
+      </div>
+    </div>
+  `).join('');
+}
+
+// ─── MODAL ────────────────────────────────────────────────
+function openModal(id) {
+  const a = aides.find(x=>x.id===id); if(!a) return;
+  document.getElementById('modal-content').innerHTML = `
+    <button class="modal-close" onclick="document.getElementById('modal-overlay').classList.remove('open')">✕</button>
+    <h2>${a.nom}</h2>
+    ${a.montant_max?`<div class="modal-amount-big">Jusqu'à ${a.montant_max}</div>`:''}
+    ${a.conditions?`<div class="modal-section"><h3>Conditions</h3><p>${a.conditions}</p></div>`:''}
+    ${(a.actions_financees||[]).length?`<div class="modal-section"><h3>Actions financées</h3><ul>${a.actions_financees.map(x=>`<li>${x}</li>`).join('')}</ul></div>`:''}
+    ${(a.naf_codes||[]).length?`<div class="modal-section"><h3>Codes NAF ciblés</h3><p>${a.naf_codes.join(', ')}</p></div>`:''}
+    ${(a.secteur||[]).length?`<div class="modal-section"><h3>Secteurs</h3><p>${a.secteur.join(', ')}</p></div>`:''}
+    ${(a.taille||[]).length?`<div class="modal-section"><h3>Taille entreprise</h3><p>${a.taille.join(', ')}</p></div>`:''}
+    ${a.region?`<div class="modal-section"><h3>Zone géographique</h3><p>${a.region}</p></div>`:''}
+    <div class="modal-section">
+      ${a.source?`<a class="modal-link" href="${a.source}" target="_blank">🔗 Source officielle</a>`:''}
+      ${a.simulateur?`<a class="modal-link" href="${a.simulateur}" target="_blank">🧮 Simulateur</a>`:''}
+    </div>
+  `;
+  document.getElementById('modal-overlay').classList.add('open');
+}
+function closeModal(e) { if(e.target===document.getElementById('modal-overlay')) document.getElementById('modal-overlay').classList.remove('open'); }
+
+// ─── ADMIN ────────────────────────────────────────────────
+function showPage(name) {
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.nav-btn').forEach(b=>b.classList.remove('active'));
+  if (name==='admin-gate') {
+    if (sessionStorage.getItem('admin_ok')) { document.getElementById('page-admin').classList.add('active'); renderAdminFull(); }
+    else document.getElementById('page-admin-gate').classList.add('active');
+    document.querySelectorAll('.nav-btn')[1].classList.add('active');
+  } else {
+    document.getElementById('page-public').classList.add('active');
+    document.querySelectorAll('.nav-btn')[0].classList.add('active');
+  }
+}
+
+function checkPwd() {
+  if (document.getElementById('pwd-input').value === ADMIN_PWD) {
+    sessionStorage.setItem('admin_ok','1');
+    document.getElementById('page-admin-gate').classList.remove('active');
+    document.getElementById('page-admin').classList.add('active');
+    renderAdminFull();
+    document.getElementById('pwd-err').textContent='';
+  } else {
+    document.getElementById('pwd-err').textContent='Mot de passe incorrect.';
+    document.getElementById('pwd-input').value='';
+  }
+}
+
+function renderAdminFull() { renderCabinetsAdmin(); renderAdminTable(); }
+
+function renderAdminTable() {
+  document.getElementById('count-badge').textContent = aides.length;
+  document.getElementById('admin-table-body').innerHTML = aides.map(a=>`
+    <tr>
+      <td class="name-cell">${a.nom}</td>
+      <td>${a.type||'—'}</td>
+      <td>${a.montant_max||'—'}</td>
+      <td style="font-size:11px;color:var(--text3)">${(a.naf_codes||[]).slice(0,3).join(', ')||'Tous'}</td>
+      <td><button class="btn-del" onclick="deleteAide(${a.id})">✕</button></td>
+    </tr>
+  `).join('') || '<tr><td colspan="5" style="color:var(--text3);padding:20px;text-align:center">Aucune aide</td></tr>';
+}
+
+function deleteAide(id) {
+  if(!confirm('Supprimer ?')) return;
+  aides=aides.filter(a=>a.id!==id); save(); renderAdminTable(); showToast('Supprimée');
+}
+
+function addAide() {
+  const nom=document.getElementById('f-nom').value.trim();
+  const type=document.getElementById('f-type').value;
+  const cond=document.getElementById('f-conditions').value.trim();
+  if(!nom||!type||!cond){showToast('Remplissez les champs *');return;}
+  const split=v=>v.split(',').map(x=>x.trim()).filter(Boolean);
+  const id=Math.max(0,...aides.map(a=>a.id))+1;
+  aides.push({id,nom,type,montant_max:document.getElementById('f-montant').value.trim(),naf_codes:split(document.getElementById('f-naf').value),secteur:split(document.getElementById('f-secteur').value),taille:split(document.getElementById('f-taille').value),region:document.getElementById('f-region').value.trim()||'Toutes',conditions:cond,actions_financees:split(document.getElementById('f-actions').value),tags:split(document.getElementById('f-tags').value),source:document.getElementById('f-source').value.trim(),simulateur:document.getElementById('f-simu').value.trim()});
+  save(); clearForm(); renderAdminTable(); buildFilters(); showToast('Aide ajoutée !');
+}
+
+function clearForm() {
+  ['f-nom','f-type','f-montant','f-naf','f-secteur','f-taille','f-region','f-conditions','f-actions','f-tags','f-source','f-simu'].forEach(id=>{document.getElementById(id).value='';});
+}
+
+function importJSON(input) {
+  const file=input.files[0]; if(!file) return;
+  const r=new FileReader();
+  r.onload=e=>{
+    try {
+      let data=JSON.parse(e.target.result);
+      if(!Array.isArray(data)) data=[data];
+      const maxId=Math.max(0,...aides.map(a=>a.id));
+      data.forEach((item,i)=>{if(!item.id)item.id=maxId+i+1;});
+      aides=[...aides,...data];
+      save(); renderAdminTable(); buildFilters(); showToast(`${data.length} aide(s) importée(s) !`);
+    } catch {showToast('JSON invalide');}
+  };
+  r.readAsText(file); input.value='';
+}
+
+function dragOver(e){e.preventDefault();document.getElementById('drop-zone').classList.add('dragover');}
+function dragLeave(){document.getElementById('drop-zone').classList.remove('dragover');}
+function dropFile(e){e.preventDefault();dragLeave();const f=e.dataTransfer.files[0];if(!f||!f.name.endsWith('.json')){showToast('.json uniquement');return;}importJSON({files:[f]});}
+
+function exportJSON() {
+  const b=new Blob([JSON.stringify(aides,null,2)],{type:'application/json'});
+  const a=document.createElement('a');a.href=URL.createObjectURL(b);a.download='aides-subventions.json';a.click();showToast('Export téléchargé !');
+}
+
+async function testCabinet() {
+  const val=document.getElementById('cabinet-select').value;
+  if(!val){showToast('Sélectionnez un cabinet dans la recherche');return;}
+  const token=getSelectedToken();
+  if(!token){showToast('Clé API non configurée pour ce cabinet');return;}
+  if(!PROXY_BASE){showToast('Proxy Vercel non configuré — mode démo actif');return;}
+  try {
+    const r=await fetch(`${PROXY_BASE}/companies?per_page=1`,{headers:{'Authorization':`Bearer ${token}`}});
+    if(r.ok) showToast('✓ Connexion Pennylane OK');
+    else showToast(`Erreur ${r.status} — vérifiez le token`);
+  } catch {showToast('Impossible de joindre le proxy');}
+}
+
+function switchTab(name) {
+  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+  document.querySelectorAll('.tab-content').forEach(t=>t.classList.remove('active'));
+  document.getElementById('tab-'+name).classList.add('active');
+  event.target.classList.add('active');
+}
+
+function save(){localStorage.setItem('aides_db',JSON.stringify(aides));}
+function showToast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),3000);}
+
+function renderAll(){populateCabinetSelect();buildFilters();renderManual();}
+renderAll();
+</script>
+</body>
+</html>
