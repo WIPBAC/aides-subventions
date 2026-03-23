@@ -31,14 +31,14 @@
   .pl-config label { font-size:12px; color:var(--text3); white-space:nowrap; }
   .pl-config select { background:var(--surface2); border:1px solid var(--border); color:var(--text); font-family:var(--font-body); font-size:13px; padding:7px 12px; border-radius:8px; outline:none; flex:1; min-width:160px; }
   .pl-config select:focus { border-color:var(--accent); }
-  .pl-config-note { font-size:12px; color:var(--text3); margin-left:auto; }
+  .pl-config-note { font-size:12px; margin-left:auto; }
   .search-bar { display:flex; gap:10px; background:var(--surface); border:1px solid var(--border); border-radius:50px; padding:8px 8px 8px 24px; transition:border-color .2s; margin-bottom:16px; }
   .search-bar:focus-within { border-color:var(--accent); }
   .search-bar input { flex:1; background:none; border:none; outline:none; color:var(--text); font-family:var(--font-body); font-size:15px; }
   .search-bar input::placeholder { color:var(--text3); }
   .search-bar button { background:var(--accent); color:#0f0f0f; border:none; border-radius:40px; padding:10px 24px; font-family:var(--font-head); font-weight:700; font-size:13px; cursor:pointer; transition:opacity .2s; white-space:nowrap; }
   .search-bar button:hover { opacity:.85; }
-  .client-list { display:grid; gap:10px; margin-bottom:32px; }
+  .client-list { display:grid; gap:10px; margin-bottom:24px; }
   .client-card { background:var(--surface); border:1px solid var(--border); border-radius:var(--radius); padding:16px 20px; cursor:pointer; transition:all .2s; display:flex; align-items:center; justify-content:space-between; gap:16px; }
   .client-card:hover { border-color:var(--accent); background:var(--surface2); }
   .client-info h4 { font-family:var(--font-head); font-size:15px; font-weight:700; margin-bottom:4px; }
@@ -46,14 +46,28 @@
   .client-meta span { font-size:12px; color:var(--text3); }
   .client-meta .naf { color:var(--info); }
   .client-arrow { color:var(--text3); font-size:18px; }
-  .selected-client { background:var(--surface); border:1px solid var(--accent); border-radius:var(--radius); padding:20px 24px; margin-bottom:24px; display:flex; align-items:center; gap:20px; flex-wrap:wrap; }
-  .selected-client-info h3 { font-family:var(--font-head); font-size:17px; font-weight:800; margin-bottom:6px; }
-  .selected-client-info .chips { display:flex; gap:8px; flex-wrap:wrap; }
-  .chip { background:var(--surface2); border:1px solid var(--border); font-size:12px; padding:4px 12px; border-radius:20px; color:var(--text2); }
+ 
+  /* PROFIL ENRICHI */
+  .enriched-client { background:var(--surface); border:1px solid var(--accent); border-radius:var(--radius); padding:20px 24px; margin-bottom:20px; }
+  .enriched-client-top { display:flex; align-items:flex-start; justify-content:space-between; gap:16px; margin-bottom:16px; flex-wrap:wrap; }
+  .enriched-client-top h3 { font-family:var(--font-head); font-size:17px; font-weight:800; margin-bottom:6px; }
+  .enriched-chips { display:flex; gap:6px; flex-wrap:wrap; }
+  .chip { background:var(--surface2); border:1px solid var(--border); font-size:11px; padding:3px 10px; border-radius:20px; color:var(--text2); }
   .chip.naf { border-color:var(--info); color:var(--info); }
-  .chip.secteur { border-color:var(--accent2); color:var(--accent2); }
-  .btn-change { background:none; border:1px solid var(--border); color:var(--text3); font-size:12px; padding:6px 14px; border-radius:20px; cursor:pointer; margin-left:auto; transition:all .2s; font-family:var(--font-body); }
+  .chip.ok { border-color:var(--accent2); color:var(--accent2); }
+  .chip.warn { border-color:#f5a623; color:#f5a623; }
+  .chip.missing { border-color:var(--danger); color:var(--danger); }
+  .enriched-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(160px,1fr)); gap:10px; margin-top:12px; }
+  .enriched-field { background:var(--surface2); border-radius:8px; padding:10px 14px; }
+  .enriched-field .label { font-size:10px; color:var(--text3); text-transform:uppercase; letter-spacing:1px; margin-bottom:4px; }
+  .enriched-field .value { font-size:13px; font-weight:500; }
+  .enriched-field .value.missing { color:var(--danger); font-style:italic; }
+  .btn-change { background:none; border:1px solid var(--border); color:var(--text3); font-size:12px; padding:6px 14px; border-radius:20px; cursor:pointer; transition:all .2s; font-family:var(--font-body); }
   .btn-change:hover { border-color:var(--text2); color:var(--text2); }
+  .btn-questionnaire { background:var(--accent); color:#0f0f0f; border:none; font-family:var(--font-head); font-weight:700; font-size:12px; padding:7px 16px; border-radius:20px; cursor:pointer; transition:opacity .2s; }
+  .btn-questionnaire:hover { opacity:.85; }
+ 
+  /* AIDES */
   .aides-header { display:flex; align-items:center; justify-content:space-between; margin-bottom:16px; flex-wrap:wrap; gap:8px; }
   .aides-header h3 { font-family:var(--font-head); font-size:16px; font-weight:700; }
   .results-count { color:var(--text3); font-size:13px; }
@@ -61,8 +75,12 @@
   .cards { display:grid; gap:14px; }
   .card { background:var(--surface); border:1px solid var(--border); border-radius:var(--radius); padding:22px; cursor:pointer; transition:all .2s; position:relative; overflow:hidden; }
   .card::before { content:''; position:absolute; top:0; left:0; width:3px; height:100%; background:var(--accent); opacity:0; transition:opacity .2s; }
+  .card.eligible { border-color:rgba(200,241,53,.3); }
+  .card.eligible::before { opacity:1; }
+  .card.partial { border-color:rgba(245,166,35,.3); }
+  .card.partial::before { background:#f5a623; opacity:1; }
+  .card.ineligible { opacity:.5; }
   .card:hover { background:var(--surface2); transform:translateY(-1px); }
-  .card:hover::before { opacity:1; }
   .card-header { display:flex; align-items:flex-start; justify-content:space-between; gap:16px; margin-bottom:10px; }
   .card-title { font-family:var(--font-head); font-size:15px; font-weight:700; line-height:1.3; }
   .card-amount { background:var(--accent); color:#0f0f0f; font-family:var(--font-head); font-weight:700; font-size:12px; padding:4px 12px; border-radius:20px; white-space:nowrap; flex-shrink:0; }
@@ -70,74 +88,13 @@
   .card-tags { display:flex; flex-wrap:wrap; gap:6px; }
   .tag { background:var(--surface2); border:1px solid var(--border); color:var(--text3); font-size:11px; padding:3px 10px; border-radius:20px; }
   .tag.type { border-color:var(--accent2); color:var(--accent2); }
-  .tag.match { border-color:var(--accent); color:var(--accent); }
+  .tag.eligible { border-color:var(--accent); color:var(--accent); }
+  .tag.partial { border-color:#f5a623; color:#f5a623; }
+  .tag.ineligible { border-color:var(--danger); color:var(--danger); }
   .empty-state { text-align:center; padding:60px 20px; color:var(--text3); }
   .empty-state .icon { font-size:32px; margin-bottom:12px; }
-  .manual-wrap { max-width:960px; margin:0 auto; padding:0 40px 40px; }
-  .filters-row { display:flex; flex-wrap:wrap; gap:8px; margin-bottom:20px; }
-  .filter-chip { background:var(--surface); border:1px solid var(--border); color:var(--text2); font-size:12px; padding:6px 14px; border-radius:20px; cursor:pointer; transition:all .15s; user-select:none; }
-  .filter-chip:hover { border-color:var(--text3); color:var(--text); }
-  .filter-chip.active { background:var(--accent); border-color:var(--accent); color:#0f0f0f; font-weight:500; }
-  .filter-label { color:var(--text3); font-size:12px; padding:6px 4px; align-self:center; }
-  .modal-overlay { display:none; position:fixed; inset:0; background:rgba(0,0,0,.75); z-index:200; backdrop-filter:blur(4px); }
-  .modal-overlay.open { display:flex; align-items:center; justify-content:center; padding:20px; }
-  .modal { background:var(--surface); border:1px solid var(--border); border-radius:16px; max-width:640px; width:100%; max-height:85vh; overflow-y:auto; padding:36px; position:relative; }
-  .modal-close { position:absolute; top:16px; right:16px; background:var(--surface2); border:1px solid var(--border); color:var(--text2); width:32px; height:32px; border-radius:50%; cursor:pointer; font-size:16px; display:flex; align-items:center; justify-content:center; }
-  .modal-close:hover { color:var(--text); }
-  .modal h2 { font-family:var(--font-head); font-size:21px; font-weight:800; margin-bottom:8px; line-height:1.3; }
-  .modal-amount-big { display:inline-block; background:var(--accent); color:#0f0f0f; font-family:var(--font-head); font-weight:800; font-size:16px; padding:5px 16px; border-radius:30px; margin-bottom:24px; }
-  .modal-section { margin-bottom:20px; }
-  .modal-section h3 { font-family:var(--font-head); font-size:11px; font-weight:700; letter-spacing:1.5px; text-transform:uppercase; color:var(--text3); margin-bottom:8px; }
-  .modal-section p, .modal-section li { color:var(--text2); font-size:14px; line-height:1.7; }
-  .modal-section ul { padding-left:16px; }
-  .modal-section li { margin-bottom:4px; }
-  .modal-link { display:inline-flex; align-items:center; gap:6px; background:var(--surface2); border:1px solid var(--border); color:var(--accent); font-size:13px; padding:8px 16px; border-radius:8px; text-decoration:none; margin-top:8px; margin-right:8px; transition:border-color .2s; }
-  .modal-link:hover { border-color:var(--accent); }
-  .admin-wrap { max-width:820px; margin:0 auto; padding:60px 40px; }
-  .admin-wrap h2 { font-family:var(--font-head); font-size:26px; font-weight:800; margin-bottom:6px; }
-  .admin-wrap .subtitle { color:var(--text2); font-size:14px; margin-bottom:36px; }
-  .admin-section { background:var(--surface); border:1px solid var(--border); border-radius:var(--radius); padding:26px; margin-bottom:20px; }
-  .admin-section h3 { font-family:var(--font-head); font-size:15px; font-weight:700; margin-bottom:18px; display:flex; align-items:center; gap:8px; }
-  .admin-section h3 .badge { background:var(--accent); color:#0f0f0f; font-size:10px; padding:2px 8px; border-radius:10px; font-weight:700; }
-  .cabinets-grid { display:grid; gap:12px; }
-  .cabinet-row { display:grid; grid-template-columns:1fr 1fr 2fr; gap:10px; align-items:center; }
-  .cabinet-row input { background:var(--surface2); border:1px solid var(--border); color:var(--text); font-family:var(--font-body); font-size:13px; padding:8px 12px; border-radius:8px; outline:none; }
-  .cabinet-row input:focus { border-color:var(--accent); }
-  .cabinet-row input[type="password"] { letter-spacing:2px; }
-  .form-grid { display:grid; grid-template-columns:1fr 1fr; gap:14px; }
-  .form-group { display:flex; flex-direction:column; gap:6px; }
-  .form-group.full { grid-column:1/-1; }
-  .form-group label { font-size:12px; color:var(--text3); font-weight:500; }
-  .form-group input, .form-group textarea, .form-group select { background:var(--surface2); border:1px solid var(--border); color:var(--text); font-family:var(--font-body); font-size:13px; padding:9px 12px; border-radius:8px; outline:none; transition:border-color .2s; }
-  .form-group input:focus, .form-group textarea:focus, .form-group select:focus { border-color:var(--accent); }
-  .form-group textarea { resize:vertical; min-height:75px; }
-  .btn-primary { background:var(--accent); color:#0f0f0f; border:none; font-family:var(--font-head); font-weight:700; font-size:13px; padding:10px 24px; border-radius:8px; cursor:pointer; transition:opacity .2s; }
-  .btn-primary:hover { opacity:.85; }
-  .btn-secondary { background:none; border:1px solid var(--border); color:var(--text2); font-family:var(--font-body); font-size:13px; padding:10px 24px; border-radius:8px; cursor:pointer; transition:all .2s; }
-  .btn-secondary:hover { border-color:var(--text2); color:var(--text); }
-  .btn-row { display:flex; gap:10px; margin-top:18px; flex-wrap:wrap; }
-  .drop-zone { border:2px dashed var(--border); border-radius:var(--radius); padding:36px; text-align:center; color:var(--text3); cursor:pointer; transition:all .2s; }
-  .drop-zone:hover, .drop-zone.dragover { border-color:var(--accent); color:var(--accent); background:rgba(200,241,53,.03); }
-  .drop-zone p { font-size:13px; margin-top:8px; }
-  .admin-table { width:100%; border-collapse:collapse; font-size:13px; }
-  .admin-table th { text-align:left; color:var(--text3); font-weight:500; font-size:11px; letter-spacing:1px; text-transform:uppercase; padding:8px 10px; border-bottom:1px solid var(--border); }
-  .admin-table td { padding:11px 10px; border-bottom:1px solid var(--border); color:var(--text2); vertical-align:middle; }
-  .admin-table tr:last-child td { border-bottom:none; }
-  .admin-table .name-cell { color:var(--text); font-weight:500; max-width:220px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
-  .btn-del { background:none; border:none; color:var(--text3); cursor:pointer; font-size:14px; padding:4px 8px; border-radius:4px; transition:color .2s; }
-  .btn-del:hover { color:var(--danger); }
-  .pwd-gate { max-width:340px; margin:80px auto; padding:36px; background:var(--surface); border:1px solid var(--border); border-radius:16px; text-align:center; }
-  .pwd-gate h2 { font-family:var(--font-head); font-size:20px; font-weight:800; margin-bottom:6px; }
-  .pwd-gate p { color:var(--text2); font-size:13px; margin-bottom:20px; }
-  .pwd-gate input { width:100%; background:var(--surface2); border:1px solid var(--border); color:var(--text); font-family:var(--font-body); font-size:15px; padding:11px 16px; border-radius:8px; outline:none; margin-bottom:10px; text-align:center; letter-spacing:4px; }
-  .pwd-gate input:focus { border-color:var(--accent); }
-  .pwd-err { color:var(--danger); font-size:12px; min-height:16px; margin-bottom:8px; }
-  .spinner { display:inline-block; width:16px; height:16px; border:2px solid var(--border); border-top-color:var(--accent); border-radius:50%; animation:spin .6s linear infinite; vertical-align:middle; margin-right:6px; }
-  @keyframes spin { to { transform:rotate(360deg); } }
-  .toast { position:fixed; bottom:24px; right:24px; background:var(--surface2); border:1px solid var(--accent); color:var(--accent); font-size:13px; padding:12px 20px; border-radius:8px; z-index:999; transform:translateY(80px); opacity:0; transition:all .3s; pointer-events:none; }
-  .toast.show { transform:translateY(0); opacity:1; }
  
-  /* LISTING SUBVENTIONS x DOSSIERS */
+  /* LISTING */
   .listing-btn-wrap { max-width:960px; margin:0 auto; padding:0 40px 32px; text-align:center; }
   .btn-listing { background:none; border:2px solid var(--accent); color:var(--accent); font-family:var(--font-head); font-weight:700; font-size:14px; padding:12px 32px; border-radius:30px; cursor:pointer; transition:all .2s; display:inline-flex; align-items:center; gap:8px; }
   .btn-listing:hover { background:var(--accent); color:#0f0f0f; }
@@ -161,15 +118,108 @@
   .dossier-meta { font-size:12px; color:var(--text3); margin-top:2px; }
   .match-score { font-size:11px; padding:3px 10px; border-radius:20px; white-space:nowrap; }
   .match-high { background:rgba(200,241,53,.15); color:var(--accent); border:1px solid rgba(200,241,53,.3); }
-  .match-mid { background:rgba(79,255,176,.1); color:var(--accent2); border:1px solid rgba(79,255,176,.2); }
+  .match-mid { background:rgba(245,166,35,.1); color:#f5a623; border:1px solid rgba(245,166,35,.2); }
   .match-low { background:var(--surface2); color:var(--text3); border:1px solid var(--border); }
  
+  /* MANUEL */
+  .manual-wrap { max-width:960px; margin:0 auto; padding:0 40px 40px; }
+  .filters-row { display:flex; flex-wrap:wrap; gap:8px; margin-bottom:20px; }
+  .filter-chip { background:var(--surface); border:1px solid var(--border); color:var(--text2); font-size:12px; padding:6px 14px; border-radius:20px; cursor:pointer; transition:all .15s; user-select:none; }
+  .filter-chip:hover { border-color:var(--text3); color:var(--text); }
+  .filter-chip.active { background:var(--accent); border-color:var(--accent); color:#0f0f0f; font-weight:500; }
+  .filter-label { color:var(--text3); font-size:12px; padding:6px 4px; align-self:center; }
+ 
+  /* MODAL DÉTAIL AIDE */
+  .modal-overlay { display:none; position:fixed; inset:0; background:rgba(0,0,0,.75); z-index:200; backdrop-filter:blur(4px); }
+  .modal-overlay.open { display:flex; align-items:center; justify-content:center; padding:20px; }
+  .modal { background:var(--surface); border:1px solid var(--border); border-radius:16px; max-width:640px; width:100%; max-height:85vh; overflow-y:auto; padding:36px; position:relative; }
+  .modal-close { position:absolute; top:16px; right:16px; background:var(--surface2); border:1px solid var(--border); color:var(--text2); width:32px; height:32px; border-radius:50%; cursor:pointer; font-size:16px; display:flex; align-items:center; justify-content:center; }
+  .modal-close:hover { color:var(--text); }
+  .modal h2 { font-family:var(--font-head); font-size:21px; font-weight:800; margin-bottom:8px; line-height:1.3; }
+  .modal-amount-big { display:inline-block; background:var(--accent); color:#0f0f0f; font-family:var(--font-head); font-weight:800; font-size:16px; padding:5px 16px; border-radius:30px; margin-bottom:24px; }
+  .modal-section { margin-bottom:20px; }
+  .modal-section h3 { font-family:var(--font-head); font-size:11px; font-weight:700; letter-spacing:1.5px; text-transform:uppercase; color:var(--text3); margin-bottom:8px; }
+  .modal-section p, .modal-section li { color:var(--text2); font-size:14px; line-height:1.7; }
+  .modal-section ul { padding-left:16px; }
+  .modal-section li { margin-bottom:4px; }
+  .modal-link { display:inline-flex; align-items:center; gap:6px; background:var(--surface2); border:1px solid var(--border); color:var(--accent); font-size:13px; padding:8px 16px; border-radius:8px; text-decoration:none; margin-top:8px; margin-right:8px; transition:border-color .2s; }
+  .modal-link:hover { border-color:var(--accent); }
+  .eligibility-banner { border-radius:8px; padding:12px 16px; margin-bottom:20px; font-size:13px; }
+  .eligibility-banner.eligible { background:rgba(200,241,53,.1); border:1px solid rgba(200,241,53,.3); color:var(--accent); }
+  .eligibility-banner.partial { background:rgba(245,166,35,.1); border:1px solid rgba(245,166,35,.3); color:#f5a623; }
+  .eligibility-banner.unknown { background:var(--surface2); border:1px solid var(--border); color:var(--text2); }
+ 
+  /* MODAL QUESTIONNAIRE */
+  .quest-overlay { display:none; position:fixed; inset:0; background:rgba(0,0,0,.8); z-index:300; backdrop-filter:blur(6px); }
+  .quest-overlay.open { display:flex; align-items:center; justify-content:center; padding:20px; }
+  .quest-modal { background:var(--surface); border:1px solid var(--accent); border-radius:16px; max-width:520px; width:100%; padding:36px; position:relative; }
+  .quest-modal h2 { font-family:var(--font-head); font-size:18px; font-weight:800; margin-bottom:6px; }
+  .quest-modal .subtitle { color:var(--text2); font-size:13px; margin-bottom:28px; }
+  .quest-field { margin-bottom:20px; }
+  .quest-field label { display:block; font-size:12px; color:var(--text3); margin-bottom:6px; font-weight:500; }
+  .quest-field .hint { font-size:11px; color:var(--text3); margin-top:4px; font-style:italic; }
+  .quest-field input, .quest-field select { width:100%; background:var(--surface2); border:1px solid var(--border); color:var(--text); font-family:var(--font-body); font-size:14px; padding:10px 14px; border-radius:8px; outline:none; transition:border-color .2s; }
+  .quest-field input:focus, .quest-field select:focus { border-color:var(--accent); }
+  .quest-actions { display:flex; gap:10px; margin-top:24px; }
+  .quest-save { background:var(--accent); color:#0f0f0f; border:none; font-family:var(--font-head); font-weight:700; font-size:14px; padding:11px 28px; border-radius:8px; cursor:pointer; flex:1; transition:opacity .2s; }
+  .quest-save:hover { opacity:.85; }
+  .quest-cancel { background:none; border:1px solid var(--border); color:var(--text2); font-family:var(--font-body); font-size:14px; padding:11px 20px; border-radius:8px; cursor:pointer; transition:all .2s; }
+  .quest-cancel:hover { border-color:var(--text2); color:var(--text); }
+  .github-status { font-size:11px; margin-top:10px; color:var(--text3); text-align:center; }
+ 
+  /* ADMIN */
+  .admin-wrap { max-width:860px; margin:0 auto; padding:60px 40px; }
+  .admin-wrap h2 { font-family:var(--font-head); font-size:26px; font-weight:800; margin-bottom:6px; }
+  .admin-wrap .subtitle { color:var(--text2); font-size:14px; margin-bottom:36px; }
+  .admin-section { background:var(--surface); border:1px solid var(--border); border-radius:var(--radius); padding:26px; margin-bottom:20px; }
+  .admin-section h3 { font-family:var(--font-head); font-size:15px; font-weight:700; margin-bottom:18px; display:flex; align-items:center; gap:8px; }
+  .admin-section h3 .badge { background:var(--accent); color:#0f0f0f; font-size:10px; padding:2px 8px; border-radius:10px; font-weight:700; }
+  .cabinets-grid { display:grid; gap:12px; }
+  .cabinet-row { display:grid; grid-template-columns:1fr 1fr; gap:10px; }
+  .cabinet-row input { background:var(--surface2); border:1px solid var(--border); color:var(--text); font-family:var(--font-body); font-size:13px; padding:8px 12px; border-radius:8px; outline:none; }
+  .cabinet-row input:focus { border-color:var(--accent); }
+  .cabinet-row input[type="password"] { letter-spacing:2px; }
+  .form-grid { display:grid; grid-template-columns:1fr 1fr; gap:14px; }
+  .form-group { display:flex; flex-direction:column; gap:6px; }
+  .form-group.full { grid-column:1/-1; }
+  .form-group.third { grid-column:span 1; }
+  .form-group label { font-size:12px; color:var(--text3); font-weight:500; }
+  .form-group input, .form-group textarea, .form-group select { background:var(--surface2); border:1px solid var(--border); color:var(--text); font-family:var(--font-body); font-size:13px; padding:9px 12px; border-radius:8px; outline:none; transition:border-color .2s; }
+  .form-group input:focus, .form-group textarea:focus, .form-group select:focus { border-color:var(--accent); }
+  .form-group textarea { resize:vertical; min-height:75px; }
+  .form-section-title { grid-column:1/-1; font-size:11px; color:var(--text3); text-transform:uppercase; letter-spacing:1.5px; padding-top:8px; border-top:1px solid var(--border); margin-top:4px; }
+  .btn-primary { background:var(--accent); color:#0f0f0f; border:none; font-family:var(--font-head); font-weight:700; font-size:13px; padding:10px 24px; border-radius:8px; cursor:pointer; transition:opacity .2s; }
+  .btn-primary:hover { opacity:.85; }
+  .btn-secondary { background:none; border:1px solid var(--border); color:var(--text2); font-family:var(--font-body); font-size:13px; padding:10px 24px; border-radius:8px; cursor:pointer; transition:all .2s; }
+  .btn-secondary:hover { border-color:var(--text2); color:var(--text); }
+  .btn-row { display:flex; gap:10px; margin-top:18px; flex-wrap:wrap; }
+  .drop-zone { border:2px dashed var(--border); border-radius:var(--radius); padding:36px; text-align:center; color:var(--text3); cursor:pointer; transition:all .2s; }
+  .drop-zone:hover, .drop-zone.dragover { border-color:var(--accent); color:var(--accent); background:rgba(200,241,53,.03); }
+  .drop-zone p { font-size:13px; margin-top:8px; }
+  .admin-table { width:100%; border-collapse:collapse; font-size:13px; }
+  .admin-table th { text-align:left; color:var(--text3); font-weight:500; font-size:11px; letter-spacing:1px; text-transform:uppercase; padding:8px 10px; border-bottom:1px solid var(--border); }
+  .admin-table td { padding:11px 10px; border-bottom:1px solid var(--border); color:var(--text2); vertical-align:middle; }
+  .admin-table tr:last-child td { border-bottom:none; }
+  .admin-table .name-cell { color:var(--text); font-weight:500; max-width:200px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+  .btn-del { background:none; border:none; color:var(--text3); cursor:pointer; font-size:14px; padding:4px 8px; border-radius:4px; transition:color .2s; }
+  .btn-del:hover { color:var(--danger); }
+  .pwd-gate { max-width:340px; margin:80px auto; padding:36px; background:var(--surface); border:1px solid var(--border); border-radius:16px; text-align:center; }
+  .pwd-gate h2 { font-family:var(--font-head); font-size:20px; font-weight:800; margin-bottom:6px; }
+  .pwd-gate p { color:var(--text2); font-size:13px; margin-bottom:20px; }
+  .pwd-gate input { width:100%; background:var(--surface2); border:1px solid var(--border); color:var(--text); font-family:var(--font-body); font-size:15px; padding:11px 16px; border-radius:8px; outline:none; margin-bottom:10px; text-align:center; letter-spacing:4px; }
+  .pwd-gate input:focus { border-color:var(--accent); }
+  .pwd-err { color:var(--danger); font-size:12px; min-height:16px; margin-bottom:8px; }
+  .spinner { display:inline-block; width:14px; height:14px; border:2px solid var(--border); border-top-color:var(--accent); border-radius:50%; animation:spin .6s linear infinite; vertical-align:middle; margin-right:6px; }
+  @keyframes spin { to { transform:rotate(360deg); } }
+  .toast { position:fixed; bottom:24px; right:24px; background:var(--surface2); border:1px solid var(--accent); color:var(--accent); font-size:13px; padding:12px 20px; border-radius:8px; z-index:999; transform:translateY(80px); opacity:0; transition:all .3s; pointer-events:none; }
+  .toast.show { transform:translateY(0); opacity:1; }
   @media (max-width:620px) {
     nav { padding:14px 18px; }
     .hero, .pl-wrap, .manual-wrap, .admin-wrap, .listing-btn-wrap, .listing-wrap { padding-left:18px; padding-right:18px; }
     .tabs-wrap { padding-left:18px; }
     .form-grid, .cabinet-row { grid-template-columns:1fr; }
     .hero h1 { font-size:28px; }
+    .enriched-grid { grid-template-columns:1fr 1fr; }
   }
 </style>
 </head>
@@ -183,11 +233,12 @@
   </div>
 </nav>
  
+<!-- PAGE PUBLIQUE -->
 <div id="page-public" class="page active">
   <div class="hero">
     <div class="hero-tag">Multi-cabinet</div>
     <h1>Trouvez l'aide<br>qu'il vous <em>faut</em></h1>
-    <p>Recherchez un client Pennylane pour afficher automatiquement les aides correspondant à son profil.</p>
+    <p>Sélectionnez un client Pennylane — son profil est enrichi automatiquement et les aides sont analysées en temps réel.</p>
   </div>
  
   <div class="tabs-wrap">
@@ -235,6 +286,7 @@
   </div>
 </div>
  
+<!-- ADMIN GATE -->
 <div id="page-admin-gate" class="page">
   <div class="pwd-gate">
     <h2>Accès admin</h2>
@@ -245,40 +297,68 @@
   </div>
 </div>
  
+<!-- ADMIN -->
 <div id="page-admin" class="page">
   <div class="admin-wrap">
     <h2>Administration</h2>
-    <p class="subtitle">Gérez les cabinets, les aides et la base de données.</p>
+    <p class="subtitle">Gérez les cabinets, les aides et la configuration GitHub.</p>
+ 
+    <!-- GitHub config -->
     <div class="admin-section">
-      <h3>Cabinets Pennylane <span class="badge">CLÉS API</span></h3>
-      <p style="font-size:13px;color:var(--text3);margin-bottom:16px">Les clés sont stockées localement dans votre navigateur, jamais envoyées à un serveur tiers.</p>
-      <div class="cabinets-grid" id="cabinets-grid"></div>
+      <h3>Configuration GitHub <span class="badge">STOCKAGE</span></h3>
+      <p style="font-size:13px;color:var(--text3);margin-bottom:16px">Le token GitHub permet de sauvegarder les réponses aux questionnaires directement dans votre repo, accessibles par toute l'équipe.</p>
+      <div class="form-grid">
+        <div class="form-group"><label>Token GitHub (ghp_...)</label><input type="password" id="gh-token" placeholder="ghp_xxxxxxxxxxxx"></div>
+        <div class="form-group"><label>Repo (owner/repo)</label><input type="text" id="gh-repo" value="WIPBAC/aides-subventions" placeholder="WIPBAC/aides-subventions"></div>
+      </div>
       <div class="btn-row">
-        <button class="btn-primary" onclick="saveCabinets()">Enregistrer les clés</button>
-        <button class="btn-secondary" onclick="testCabinet()">Tester la connexion</button>
+        <button class="btn-primary" onclick="saveGithubConfig()">Enregistrer</button>
+        <button class="btn-secondary" onclick="testGithub()">Tester</button>
       </div>
     </div>
+ 
+    <!-- Cabinets -->
+    <div class="admin-section">
+      <h3>Cabinets Pennylane <span class="badge">CLÉS API</span></h3>
+      <div class="cabinets-grid" id="cabinets-grid"></div>
+      <div class="btn-row"><button class="btn-primary" onclick="saveCabinets()">Enregistrer</button></div>
+    </div>
+ 
+    <!-- Import JSON -->
     <div class="admin-section">
       <h3>Importer des aides <span class="badge">JSON</span></h3>
       <div class="drop-zone" id="drop-zone" onclick="document.getElementById('file-input').click()" ondragover="dragOver(event)" ondragleave="dragLeave(event)" ondrop="dropFile(event)">
         <div style="font-size:26px">📂</div>
         <p>Glissez un fichier <strong>.json</strong> ici ou cliquez pour parcourir</p>
-        <p style="font-size:11px;margin-top:4px;color:var(--text3)">Fusionné avec la base existante</p>
       </div>
       <input type="file" id="file-input" accept=".json" style="display:none" onchange="importJSON(this)">
     </div>
+ 
+    <!-- Ajouter aide -->
     <div class="admin-section">
       <h3>Ajouter une aide <span class="badge">MANUEL</span></h3>
       <div class="form-grid">
         <div class="form-group full"><label>Nom de l'aide *</label><input type="text" id="f-nom" placeholder="Ex: Subvention Prévention ergonomique"></div>
-        <div class="form-group"><label>Type *</label><select id="f-type"><option value="">-- Choisir --</option><option>Subvention</option><option>Exonération</option><option>Prêt</option><option>Crédit d'impôt</option><option>Aide à l'embauche</option><option>Autre</option></select></div>
+        <div class="form-group"><label>Type *</label>
+          <select id="f-type"><option value="">-- Choisir --</option><option>Subvention</option><option>Exonération</option><option>Prêt</option><option>Crédit d'impôt</option><option>Aide à l'embauche</option><option>Autre</option></select>
+        </div>
         <div class="form-group"><label>Montant max</label><input type="text" id="f-montant" placeholder="Ex: 50 000€"></div>
+        <div class="form-group full"><label>Conditions / Description *</label><textarea id="f-conditions" placeholder="Décrivez les conditions d'éligibilité..."></textarea></div>
+ 
+        <div class="form-section-title">Critères d'éligibilité structurés</div>
+        <div class="form-group"><label>Effectif min (salariés)</label><input type="number" id="f-eff-min" placeholder="Ex: 1" min="0"></div>
+        <div class="form-group"><label>Effectif max (salariés)</label><input type="number" id="f-eff-max" placeholder="Ex: 250 (vide = illimité)" min="0"></div>
+        <div class="form-group"><label>CA min (€)</label><input type="number" id="f-ca-min" placeholder="Ex: 0"></div>
+        <div class="form-group"><label>CA max (€)</label><input type="number" id="f-ca-max" placeholder="Vide = illimité"></div>
+        <div class="form-group"><label>Ancienneté min (mois)</label><input type="number" id="f-age-min" placeholder="Ex: 12" min="0"></div>
+        <div class="form-group"><label>Formes juridiques acceptées</label><input type="text" id="f-formes" placeholder="Ex: SARL, SAS, EURL (vide = toutes)"></div>
         <div class="form-group"><label>Codes NAF — séparés par virgule</label><input type="text" id="f-naf" placeholder="Ex: 43.99C, 41.20A"></div>
         <div class="form-group"><label>Secteur(s) — séparés par virgule</label><input type="text" id="f-secteur" placeholder="Ex: BTP, Construction"></div>
-        <div class="form-group"><label>Taille — séparée par virgule</label><input type="text" id="f-taille" placeholder="Ex: TPE, PME"></div>
         <div class="form-group"><label>Région</label><input type="text" id="f-region" placeholder="Ex: Toutes, Bretagne"></div>
-        <div class="form-group full"><label>Conditions / Description *</label><textarea id="f-conditions" placeholder="Décrivez les conditions d'éligibilité..."></textarea></div>
-        <div class="form-group"><label>Actions financées — séparées par virgule</label><input type="text" id="f-actions" placeholder="Ex: Formation, Équipement"></div>
+        <div class="form-group"><label>Convention collective IDCC</label><input type="text" id="f-idcc" placeholder="Ex: 1597 (vide = toutes)"></div>
+        <div class="form-group"><label>Caractère employeur requis</label>
+          <select id="f-employeur"><option value="">Indifférent</option><option value="O">Oui — doit employer du personnel</option><option value="N">Non — sans salarié</option></select>
+        </div>
         <div class="form-group"><label>Tags — séparés par virgule</label><input type="text" id="f-tags" placeholder="Ex: ergonomie, TMS"></div>
         <div class="form-group"><label>Lien source officiel</label><input type="url" id="f-source" placeholder="https://..."></div>
         <div class="form-group"><label>Lien simulateur</label><input type="url" id="f-simu" placeholder="https://..."></div>
@@ -288,10 +368,12 @@
         <button class="btn-secondary" onclick="clearForm()">Effacer</button>
       </div>
     </div>
+ 
+    <!-- Table aides -->
     <div class="admin-section">
       <h3>Base actuelle <span class="badge" id="count-badge">0</span></h3>
       <table class="admin-table">
-        <thead><tr><th>Nom</th><th>Type</th><th>Montant</th><th>NAF</th><th></th></tr></thead>
+        <thead><tr><th>Nom</th><th>Type</th><th>Montant</th><th>Effectif</th><th>NAF</th><th></th></tr></thead>
         <tbody id="admin-table-body"></tbody>
       </table>
       <div class="btn-row" style="margin-top:20px">
@@ -302,162 +384,444 @@
   </div>
 </div>
  
+<!-- MODAL AIDE DETAIL -->
 <div class="modal-overlay" id="modal-overlay" onclick="closeModal(event)">
   <div class="modal" id="modal-content"></div>
 </div>
+ 
+<!-- MODAL QUESTIONNAIRE -->
+<div class="quest-overlay" id="quest-overlay">
+  <div class="quest-modal">
+    <h2>🎯 Compléter le profil</h2>
+    <p class="subtitle" id="quest-subtitle"></p>
+    <div id="quest-fields"></div>
+    <div class="quest-actions">
+      <button class="quest-cancel" onclick="closeQuestionnaire()">Annuler</button>
+      <button class="quest-save" onclick="saveQuestionnaire()">Enregistrer et analyser</button>
+    </div>
+    <div class="github-status" id="github-save-status"></div>
+  </div>
+</div>
+ 
 <div class="toast" id="toast"></div>
  
 <script>
+// ─── CONFIG ───────────────────────────────────────────────
 const ADMIN_PWD = "admin2024";
 const PROXY_BASE = "https://aides-subventions-bacauditconseil.vercel.app/api/pennylane";
+const DATAGOUV_API = "https://recherche-entreprises.api.gouv.fr/search";
  
-const NAF_SECTEURS = {"01":"Agriculture","02":"Sylviculture","03":"Pêche","05":"Extraction charbon","06":"Extraction pétrole","07":"Extraction minerais","08":"Autres extractions","09":"Services extraction","10":"Industrie alimentaire","11":"Boissons","12":"Tabac","13":"Textile","14":"Habillement","15":"Cuir","16":"Bois","17":"Papier","18":"Imprimerie","19":"Raffinage","20":"Chimie","21":"Pharmacie","22":"Plastique","23":"Minéraux","24":"Métallurgie","25":"Produits métalliques","26":"Électronique","27":"Équipements électriques","28":"Machines","29":"Véhicules","30":"Autres transports","31":"Meubles","32":"Autres industries","33":"Réparation machines","35":"Énergie","36":"Eau","37":"Assainissement","38":"Déchets","39":"Dépollution","41":"Construction bâtiment","42":"Génie civil","43":"Travaux spécialisés BTP","45":"Commerce auto","46":"Commerce de gros","47":"Commerce de détail","49":"Transports terrestres","50":"Transport eau","51":"Transport aérien","52":"Entreposage","53":"Poste et courrier","55":"Hébergement","56":"Restauration","58":"Édition","59":"Audiovisuel","60":"Radiodiffusion","61":"Télécommunications","62":"Informatique","63":"Services d'information","64":"Services financiers","65":"Assurance","66":"Activités financières auxiliaires","68":"Immobilier","69":"Juridique et comptable","70":"Conseil management","71":"Architecture et ingénierie","72":"Recherche et développement","73":"Publicité","74":"Activités spécialisées","75":"Vétérinaire","77":"Location","78":"Emploi","79":"Voyage","80":"Enquêtes et sécurité","81":"Services bâtiments","82":"Services administratifs","84":"Administration publique","85":"Enseignement","86":"Santé","87":"Hébergement médico-social","88":"Action sociale sans hébergement","90":"Arts et spectacles","91":"Bibliothèques","92":"Jeux et paris","93":"Sports et loisirs","94":"Associations","95":"Réparation informatique","96":"Services personnels","97":"Ménages employeurs","99":"Organisations extraterritoriales"};
+// ─── NAF SECTEURS ─────────────────────────────────────────
+const NAF_SECTEURS = {"01":"Agriculture","02":"Sylviculture","03":"Pêche","10":"Industrie alimentaire","11":"Boissons","13":"Textile","14":"Habillement","16":"Bois","17":"Papier","18":"Imprimerie","20":"Chimie","21":"Pharmacie","22":"Plastique","23":"Minéraux","24":"Métallurgie","25":"Produits métalliques","26":"Électronique","27":"Équipements électriques","28":"Machines","29":"Véhicules","31":"Meubles","32":"Autres industries","33":"Réparation machines","35":"Énergie","38":"Déchets","41":"Construction bâtiment","42":"Génie civil","43":"Travaux spécialisés BTP","45":"Commerce auto","46":"Commerce de gros","47":"Commerce de détail","49":"Transports terrestres","52":"Entreposage","55":"Hébergement","56":"Restauration","58":"Édition","59":"Audiovisuel","61":"Télécommunications","62":"Informatique","63":"Services d'information","64":"Services financiers","65":"Assurance","68":"Immobilier","69":"Juridique et comptable","70":"Conseil management","71":"Architecture et ingénierie","72":"R&D","73":"Publicité","74":"Activités spécialisées","77":"Location","78":"Emploi","79":"Voyage","81":"Services bâtiments","82":"Services administratifs","84":"Administration publique","85":"Enseignement","86":"Santé","87":"Hébergement médico-social","88":"Action sociale","90":"Arts et spectacles","93":"Sports et loisirs","94":"Associations","95":"Réparation informatique","96":"Services personnels"};
+function nafToSecteur(code) { if(!code) return null; return NAF_SECTEURS[code.replace(/\./g,'').substring(0,2)]||null; }
  
-function nafToSecteur(code) { if(!code) return null; return NAF_SECTEURS[code.replace(/\./g,'').substring(0,2)] || null; }
+// ─── TRANCHES EFFECTIF INSEE ──────────────────────────────
+const TRANCHE_EFFECTIF = {"00":"0 salarié","01":"1-2","02":"3-5","03":"6-9","11":"10-19","12":"20-49","21":"50-99","22":"100-199","31":"200-249","32":"250-499","41":"500-999","42":"1000-1999","51":"2000-4999","52":"5000-9999","53":"10000+"};
+function trancheToMin(t) { const map={"00":0,"01":1,"02":3,"03":6,"11":10,"12":20,"21":50,"22":100,"31":200,"32":250,"41":500,"42":1000,"51":2000,"52":5000,"53":10000}; return map[t]||0; }
+function trancheToMax(t) { const map={"00":0,"01":2,"02":5,"03":9,"11":19,"12":49,"21":99,"22":199,"31":249,"32":499,"41":999,"42":1999,"51":4999,"52":9999,"53":999999}; return map[t]||999999; }
  
-const defaultAides = [{"id":1,"nom":"Subvention Prévention des risques ergonomiques","type":"Subvention","naf_codes":[],"secteur":["HLM","Sociétés anonymes HLM","Fondations HLM"],"taille":["TPE","PME","Grande entreprise"],"region":"Toutes","montant_max":"50 000€","actions_financees":["Diagnostics ergonomiques","Formations","Équipements","Actions de sensibilisation","Aménagements de poste","Frais de personnel"],"conditions":"Accord de branche HLM. Prévention des troubles musculosquelettiques (TMS). Demandes sur net-entreprises.fr.","source":"https://www.ameli.fr/entreprise","simulateur":"https://www.net-entreprises.fr","tags":["ergonomie","TMS","prévention","risques professionnels","HLM"]}];
+// ─── DONNÉES ──────────────────────────────────────────────
+const defaultAides = [{"id":1,"nom":"Subvention Prévention des risques ergonomiques","type":"Subvention","naf_codes":[],"secteur":["HLM","Sociétés anonymes HLM","Fondations HLM"],"taille":["TPE","PME","Grande entreprise"],"region":"Toutes","montant_max":"50 000€","effectif_min":null,"effectif_max":null,"ca_min":null,"ca_max":null,"age_min_mois":null,"formes_juridiques":[],"idcc":null,"caractere_employeur":"","actions_financees":["Diagnostics ergonomiques","Formations","Équipements","Actions de sensibilisation","Aménagements de poste","Frais de personnel"],"conditions":"Accord de branche HLM. Prévention des troubles musculosquelettiques (TMS). Demandes sur net-entreprises.fr.","source":"https://www.ameli.fr/entreprise","simulateur":"https://www.net-entreprises.fr","tags":["ergonomie","TMS","prévention","HLM"]}];
+let aides = JSON.parse(localStorage.getItem('aides_db')||'null')||[...defaultAides];
+let activeFilters = new Set(), selectedClient = null, enrichedData = null, clientsCache = [], questionnairePending = null;
+// Données questionnaire par SIREN stockées localement + GitHub
+let clientProfiles = JSON.parse(localStorage.getItem('client_profiles')||'{}');
  
-let aides = JSON.parse(localStorage.getItem('aides_db')||'null') || [...defaultAides];
-let activeFilters = new Set(), selectedClient = null, clientsCache = [], clientsCacheLoading = false;
+// ─── GITHUB ───────────────────────────────────────────────
+function loadGithubConfig() { return { token: localStorage.getItem('gh_token')||'', repo: localStorage.getItem('gh_repo')||'WIPBAC/aides-subventions' }; }
+function saveGithubConfig() { localStorage.setItem('gh_token', document.getElementById('gh-token').value.trim()); localStorage.setItem('gh_repo', document.getElementById('gh-repo').value.trim()); showToast('Config GitHub enregistrée ✓'); }
+async function testGithub() {
+  const {token,repo} = loadGithubConfig();
+  if(!token){showToast('Token GitHub manquant');return;}
+  try { const r=await fetch(`https://api.github.com/repos/${repo}`,{headers:{'Authorization':`token ${token}`,'Accept':'application/vnd.github.v3+json'}}); r.ok?showToast('✓ GitHub connecté'):showToast(`Erreur GitHub ${r.status}`); } catch{showToast('Impossible de joindre GitHub');}
+}
+async function saveProfileToGithub(siren, profile) {
+  const {token,repo} = loadGithubConfig();
+  if(!token||!repo) return false;
+  const path = `data/profiles/${siren}.json`;
+  const content = btoa(unescape(encodeURIComponent(JSON.stringify(profile, null, 2))));
+  try {
+    // Vérifie si le fichier existe déjà pour récupérer son SHA
+    let sha = null;
+    const check = await fetch(`https://api.github.com/repos/${repo}/contents/${path}`,{headers:{'Authorization':`token ${token}`}});
+    if(check.ok){const d=await check.json();sha=d.sha;}
+    const body = {message:`Profil ${siren} mis à jour`,content};
+    if(sha) body.sha = sha;
+    const r = await fetch(`https://api.github.com/repos/${repo}/contents/${path}`,{method:'PUT',headers:{'Authorization':`token ${token}`,'Content-Type':'application/json'},body:JSON.stringify(body)});
+    return r.ok;
+  } catch{return false;}
+}
+async function loadProfileFromGithub(siren) {
+  const {token,repo} = loadGithubConfig();
+  if(!token||!repo) return null;
+  try {
+    const r = await fetch(`https://api.github.com/repos/${repo}/contents/data/profiles/${siren}.json`,{headers:{'Authorization':`token ${token}`}});
+    if(!r.ok) return null;
+    const d = await r.json();
+    return JSON.parse(decodeURIComponent(escape(atob(d.content))));
+  } catch{return null;}
+}
  
-// CABINETS
+// ─── ENRICHISSEMENT DATA.GOUV ─────────────────────────────
+async function enrichFromDataGouv(siren) {
+  try {
+    const r = await fetch(`${DATAGOUV_API}?q=${siren}&page=1&per_page=1`);
+    if(!r.ok) return null;
+    const data = await r.json();
+    const res = data.results?.[0];
+    if(!res) return null;
+    return {
+      siren: res.siren,
+      forme_juridique: res.nature_juridique_libelle || res.nature_juridique || null,
+      forme_juridique_code: res.nature_juridique || null,
+      tranche_effectif: res.tranche_effectif_salarie || null,
+      tranche_effectif_libelle: res.tranche_effectif_salarie ? (TRANCHE_EFFECTIF[res.tranche_effectif_salarie]||res.tranche_effectif_salarie) : null,
+      effectif_min: res.tranche_effectif_salarie ? trancheToMin(res.tranche_effectif_salarie) : null,
+      effectif_max: res.tranche_effectif_salarie ? trancheToMax(res.tranche_effectif_salarie) : null,
+      date_creation: res.date_creation || null,
+      age_mois: res.date_creation ? Math.floor((Date.now()-new Date(res.date_creation))/(1000*60*60*24*30)) : null,
+      caractere_employeur: res.caractere_employeur || null,
+      statut: res.etat_administratif || null,
+      naf: res.activite_principale || null,
+      denomination: res.nom_complet || res.denomination || null,
+    };
+  } catch(e){ return null; }
+}
+ 
+// ─── CABINETS ─────────────────────────────────────────────
 const CABINET_NAMES = ["Cabinet 1","Cabinet 2","Cabinet 3","Cabinet 4"];
-function loadCabinets() { return JSON.parse(localStorage.getItem('cabinets_cfg')||'null') || CABINET_NAMES.map((n,i)=>({id:i+1,name:n,token:''})); }
+function loadCabinets() { return JSON.parse(localStorage.getItem('cabinets_cfg')||'null')||CABINET_NAMES.map((n,i)=>({id:i+1,name:n,token:''})); }
 function saveCabinets() { const d=[...document.querySelectorAll('.cabinet-row-data')].map(r=>({id:parseInt(r.dataset.id),name:r.querySelector('.c-name').value.trim(),token:r.querySelector('.c-token').value.trim()})); localStorage.setItem('cabinets_cfg',JSON.stringify(d)); populateCabinetSelect(); showToast('Cabinets enregistrés ✓'); }
 function populateCabinetSelect() { const c=loadCabinets(),s=document.getElementById('cabinet-select'),v=s.value; s.innerHTML='<option value="">-- Choisir un cabinet --</option>'; c.forEach(c=>{const o=document.createElement('option');o.value=c.id;o.textContent=c.name||`Cabinet ${c.id}`;s.appendChild(o);}); if(v)s.value=v; }
-function renderCabinetsAdmin() { const c=loadCabinets(); document.getElementById('cabinets-grid').innerHTML=`<div style="display:grid;grid-template-columns:1fr 1fr 2fr;gap:10px;margin-bottom:6px"><span style="font-size:11px;color:var(--text3);letter-spacing:1px;text-transform:uppercase">Nom</span><span style="font-size:11px;color:var(--text3);letter-spacing:1px;text-transform:uppercase">Token API</span><span></span></div>`+c.map(c=>`<div class="cabinet-row cabinet-row-data" data-id="${c.id}"><input class="c-name" type="text" value="${c.name}" placeholder="Nom du cabinet"><input class="c-token" type="password" value="${c.token}" placeholder="Bearer token Pennylane"></div>`).join(''); }
-function onCabinetChange() { const v=document.getElementById('cabinet-select').value,a=document.getElementById('pl-search-area'),s=document.getElementById('cabinet-status'); clientsCache=[]; resetClientSelection(); document.getElementById('listing-btn-wrap').style.display='none'; document.getElementById('listing-wrap').innerHTML=''; if(!v){a.style.display='none';s.textContent='';return;} const cab=loadCabinets().find(c=>c.id==v); if(!cab||!cab.token){s.style.color='var(--danger)';s.textContent='⚠ Clé API non configurée (admin)';a.style.display='none';}else{a.style.display='block';loadAllClients();} }
+function renderCabinetsAdmin() { const c=loadCabinets(); document.getElementById('cabinets-grid').innerHTML=`<div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:6px"><span style="font-size:11px;color:var(--text3);text-transform:uppercase;letter-spacing:1px">Nom</span><span style="font-size:11px;color:var(--text3);text-transform:uppercase;letter-spacing:1px">Token API</span></div>`+c.map(c=>`<div class="cabinet-row cabinet-row-data" data-id="${c.id}"><input class="c-name" type="text" value="${c.name}" placeholder="Nom du cabinet"><input class="c-token" type="password" value="${c.token}" placeholder="Bearer token Pennylane"></div>`).join(''); }
+function onCabinetChange() { const v=document.getElementById('cabinet-select').value,a=document.getElementById('pl-search-area'),s=document.getElementById('cabinet-status'); clientsCache=[]; resetClientSelection(); document.getElementById('listing-btn-wrap').style.display='none'; document.getElementById('listing-wrap').innerHTML=''; if(!v){a.style.display='none';s.textContent='';return;} const cab=loadCabinets().find(c=>c.id==v); if(!cab||!cab.token){s.style.color='var(--danger)';s.textContent='⚠ Clé API non configurée';a.style.display='none';}else{a.style.display='block';loadAllClients();} }
 function getSelectedToken() { const v=document.getElementById('cabinet-select').value; if(!v)return null; const c=loadCabinets().find(c=>c.id==v); return c?c.token:null; }
  
-// CHARGEMENT CLIENTS
+// ─── CHARGEMENT CLIENTS ───────────────────────────────────
 async function loadAllClients() {
   const token=getSelectedToken(); if(!token)return;
   const status=document.getElementById('cabinet-status');
-  status.style.color='var(--accent)'; status.textContent='⏳ Chargement des clients...';
-  clientsCacheLoading=true; clientsCache=[];
+  status.style.color='var(--accent)'; status.textContent='⏳ Chargement...'; clientsCache=[];
   try {
-    let page=1,totalPages=1;
-    while(page<=totalPages) {
+    let page=1,total=1;
+    while(page<=total){
       const r=await fetch(`${PROXY_BASE}?page=${page}&per_page=500`,{headers:{'Authorization':`Bearer ${token}`}});
       if(!r.ok) throw new Error(`Erreur ${r.status}`);
-      const data=await r.json(); totalPages=data.total_pages||1;
-      clientsCache=[...clientsCache,...(data.items||[])];
-      status.textContent=`⏳ ${clientsCache.length} / ${data.total_items} clients chargés...`; page++;
+      const d=await r.json(); total=d.total_pages||1;
+      clientsCache=[...clientsCache,...(d.items||[])];
+      status.textContent=`⏳ ${clientsCache.length}/${d.total_items} clients...`; page++;
     }
     status.style.color='var(--accent2)'; status.textContent=`✓ ${clientsCache.length} clients chargés`;
     document.getElementById('listing-btn-wrap').style.display='block';
     document.getElementById('listing-wrap').innerHTML='';
     document.getElementById('pl-search-input').focus();
   } catch(e){ status.style.color='var(--danger)'; status.textContent=`Erreur : ${e.message}`; }
-  clientsCacheLoading=false;
 }
  
-// RECHERCHE CLIENTS
+// ─── RECHERCHE CLIENTS ────────────────────────────────────
 function searchClients() {
   const q=document.getElementById('pl-search-input').value.trim().toLowerCase(), res=document.getElementById('pl-results');
   if(!q){res.innerHTML='';return;}
   if(!clientsCache.length){res.innerHTML=`<div class="empty-state"><div class="icon">⏳</div><p>Chargement en cours...</p></div>`;return;}
   const f=clientsCache.filter(c=>c.name.toLowerCase().includes(q)||(c.siren&&c.siren.includes(q))||(c.client_code&&c.client_code.toLowerCase().includes(q)));
   if(!f.length){res.innerHTML=`<div class="empty-state"><div class="icon">🔍</div><p>Aucun client trouvé pour « ${q} »</p></div>`;return;}
-  res.innerHTML=`<div class="client-list">${f.map(c=>{const s=nafToSecteur(c.activity_code);return`<div class="client-card" onclick="selectClient(${JSON.stringify(c).replace(/"/g,'&quot;')})"><div class="client-info"><h4>${c.name}</h4><div class="client-meta"><span>SIREN : ${c.siren}</span><span class="naf">NAF : ${c.activity_code}${s?` — ${s}`:''}</span><span>📍 ${c.city} (${c.postal_code})</span></div></div><div class="client-arrow">›</div></div>`;}).join('')}</div>`;
+  res.innerHTML=`<div class="client-list">${f.slice(0,20).map(c=>{const s=nafToSecteur(c.activity_code);return`<div class="client-card" onclick="selectClient(${JSON.stringify(c).replace(/"/g,'&quot;')})"><div class="client-info"><h4>${c.name}</h4><div class="client-meta"><span>SIREN : ${c.siren}</span><span class="naf">NAF : ${c.activity_code}${s?` — ${s}`:''}</span><span>📍 ${c.city}</span></div></div><div class="client-arrow">›</div></div>`;}).join('')}</div>`;
 }
  
-function selectClient(client) {
-  selectedClient=client; document.getElementById('pl-results').innerHTML=''; document.getElementById('pl-search-input').value='';
-  const s=nafToSecteur(client.activity_code), w=document.getElementById('selected-client-wrap'); w.style.display='block';
-  w.innerHTML=`<div class="selected-client"><div class="selected-client-info"><h3>${client.name}</h3><div class="chips"><span class="chip">SIREN : ${client.siren}</span><span class="chip naf">NAF : ${client.activity_code}</span>${s?`<span class="chip secteur">${s}</span>`:''}<span class="chip">📍 ${client.city}</span></div></div><button class="btn-change" onclick="resetClientSelection()">Changer de client</button></div>`;
-  renderAidesFromClient(client);
+// ─── SÉLECTION + ENRICHISSEMENT ───────────────────────────
+async function selectClient(client) {
+  selectedClient = client; enrichedData = null;
+  document.getElementById('pl-results').innerHTML=''; document.getElementById('pl-search-input').value='';
+  const wrap = document.getElementById('selected-client-wrap');
+  wrap.style.display='block';
+  wrap.innerHTML=`<div class="enriched-client"><div class="enriched-client-top"><div><h3>${client.name}</h3><div class="enriched-chips"><span class="chip naf">NAF : ${client.activity_code}</span><span class="chip">SIREN : ${client.siren}</span><span class="chip">📍 ${client.city}</span></div></div><div style="display:flex;gap:8px;align-items:center"><span style="font-size:12px;color:var(--text3)"><span class="spinner"></span>Enrichissement...</span><button class="btn-change" onclick="resetClientSelection()">Changer</button></div></div></div>`;
+ 
+  // Charger profil GitHub en parallèle avec enrichissement
+  const [gouv, ghProfile] = await Promise.all([
+    enrichFromDataGouv(client.siren),
+    loadProfileFromGithub(client.siren)
+  ]);
+ 
+  // Fusionner : profil local > GitHub > data.gouv
+  const localProfile = clientProfiles[client.siren] || {};
+  if(ghProfile) Object.assign(clientProfiles[client.siren]={}, ghProfile, localProfile);
+  const profile = clientProfiles[client.siren] || {};
+ 
+  enrichedData = { ...gouv };
+ 
+  renderEnrichedClient(client, gouv, profile);
+  renderAidesFromClient(client, gouv, profile);
 }
  
-function renderAidesFromClient(client) {
-  const secteur=nafToSecteur(client.activity_code), nafCode=client.activity_code, region=client.postal_code?getRegionFromPostal(client.postal_code):null;
-  const scored=aides.map(a=>{
-    let score=0;
-    const mN=(a.naf_codes||[]).some(n=>n.replace(/\./g,'').toLowerCase()===(nafCode||'').replace(/\./g,'').toLowerCase());
-    const mS=secteur&&(a.secteur||[]).some(s=>s.toLowerCase().includes(secteur.toLowerCase())||secteur.toLowerCase().includes(s.toLowerCase()));
-    const mR=!a.region||a.region==='Toutes'||(region&&a.region.toLowerCase().includes(region.toLowerCase()));
-    if(mN)score+=3; if(mS)score+=2; if(mR)score+=1;
-    if(!(a.naf_codes||[]).length&&!(a.secteur||[]).length)score=1;
-    return{...a,score,matchNaf:mN,matchSecteur:mS};
-  }).sort((a,b)=>b.score-a.score);
-  const c=document.getElementById('aides-from-client');
-  if(!aides.length){c.innerHTML=`<div class="empty-state"><div class="icon">📂</div><p>Aucune aide dans la base.</p></div>`;return;}
-  c.innerHTML=`<div class="aides-header"><h3>Aides potentielles</h3><div class="results-count"><strong>${scored.length}</strong> aide${scored.length>1?'s':''} analysée${scored.length>1?'s':''}</div></div><div class="cards">${scored.map(a=>`<div class="card" onclick="openModal(${a.id})"><div class="card-header"><div class="card-title">${a.nom}</div>${a.montant_max?`<div class="card-amount">${a.montant_max}</div>`:''}</div><div class="card-desc">${(a.conditions||'').substring(0,130)}${(a.conditions||'').length>130?'…':''}</div><div class="card-tags">${a.type?`<span class="tag type">${a.type}</span>`:''} ${a.matchNaf?`<span class="tag match">✓ NAF correspondant</span>`:''} ${a.matchSecteur&&!a.matchNaf?`<span class="tag match">✓ Secteur proche</span>`:''} ${(a.tags||[]).slice(0,3).map(t=>`<span class="tag">${t}</span>`).join('')}</div></div>`).join('')}</div>`;
-}
+function renderEnrichedClient(client, gouv, profile) {
+  const wrap = document.getElementById('selected-client-wrap');
+  const secteur = nafToSecteur(client.activity_code);
  
-function getRegionFromPostal(cp) { const d=cp.substring(0,2),m={'75':'Île-de-France','77':'Île-de-France','78':'Île-de-France','91':'Île-de-France','92':'Île-de-France','93':'Île-de-France','94':'Île-de-France','95':'Île-de-France','44':'Pays de la Loire','49':'Pays de la Loire','53':'Pays de la Loire','72':'Pays de la Loire','85':'Pays de la Loire','33':'Nouvelle-Aquitaine','64':'Nouvelle-Aquitaine','13':'PACA','06':'PACA','69':'Auvergne-Rhône-Alpes','38':'Auvergne-Rhône-Alpes','31':'Occitanie','34':'Occitanie','59':'Hauts-de-France','62':'Hauts-de-France','67':'Grand Est','68':'Grand Est','35':'Bretagne','22':'Bretagne','29':'Bretagne','56':'Bretagne'}; return m[d]||null; }
+  const fields = [
+    { label:'Secteur', value: secteur, key: null },
+    { label:'Forme juridique', value: gouv?.forme_juridique || profile.forme_juridique, key:'forme_juridique' },
+    { label:'Effectif', value: gouv?.tranche_effectif_libelle || (profile.effectif ? `${profile.effectif} sal.` : null), key:'effectif' },
+    { label:'Date création', value: gouv?.date_creation ? new Date(gouv.date_creation).toLocaleDateString('fr') : (profile.date_creation||null), key:'date_creation' },
+    { label:'Ancienneté', value: gouv?.age_mois ? `${Math.floor(gouv.age_mois/12)} ans` : null, key: null },
+    { label:'Employeur', value: gouv?.caractere_employeur === 'O' ? 'Oui' : gouv?.caractere_employeur === 'N' ? 'Non' : (profile.caractere_employeur||null), key:'caractere_employeur' },
+    { label:'CA annuel', value: profile.ca ? `${Number(profile.ca).toLocaleString('fr')}€` : null, key:'ca' },
+    { label:'Conv. collective', value: profile.idcc || null, key:'idcc' },
+  ];
  
-function resetClientSelection() { selectedClient=null; document.getElementById('selected-client-wrap').style.display='none'; document.getElementById('aides-from-client').innerHTML=''; document.getElementById('pl-results').innerHTML=''; document.getElementById('pl-search-input').value=''; }
+  const missingCount = fields.filter(f => f.key && !f.value).length;
  
-// LISTING SUBVENTIONS x DOSSIERS
-function scoreMatch(client, aide) {
-  let score=0;
-  const naf=(client.activity_code||'').replace(/\./g,'').toLowerCase(), s=nafToSecteur(client.activity_code);
-  const mN=(aide.naf_codes||[]).some(n=>n.replace(/\./g,'').toLowerCase()===naf);
-  const mS=s&&(aide.secteur||[]).some(x=>x.toLowerCase().includes(s.toLowerCase())||s.toLowerCase().includes(x.toLowerCase()));
-  const rC=client.postal_code?getRegionFromPostal(client.postal_code):null;
-  const mR=!aide.region||aide.region==='Toutes'||(rC&&aide.region.toLowerCase().includes(rC.toLowerCase()));
-  if(mN)score+=3; if(mS)score+=2; if(mR)score+=1;
-  if(!(aide.naf_codes||[]).length&&!(aide.secteur||[]).length)score=1;
-  return score;
-}
- 
-function showListing() {
-  if(!clientsCache.length){showToast('Clients non chargés');return;}
-  if(!aides.length){showToast('Aucune aide dans la base');return;}
-  const wrap=document.getElementById('listing-wrap');
-  wrap.innerHTML=`<div style="color:var(--text3);font-size:13px;margin-bottom:20px">${aides.length} subvention${aides.length>1?'s':''} analysée${aides.length>1?'s':''} sur ${clientsCache.length} dossiers</div>`;
-  const results=aides.map(aide=>{
-    const dossiers=clientsCache.map(c=>({client:c,score:scoreMatch(c,aide)})).filter(x=>x.score>0).sort((a,b)=>b.score-a.score);
-    return{aide,dossiers};
-  }).sort((a,b)=>b.dossiers.length-a.dossiers.length);
-  wrap.innerHTML+=results.map((r,i)=>`
-    <div class="listing-card">
-      <div class="listing-card-header" onclick="toggleListing(${i})">
-        <div class="listing-card-left">
-          <h4>${r.aide.nom}</h4>
-          <div class="meta">${r.aide.type||''}${r.aide.montant_max?' · '+r.aide.montant_max:''}</div>
+  wrap.innerHTML = `
+    <div class="enriched-client">
+      <div class="enriched-client-top">
+        <div>
+          <h3>${client.name}</h3>
+          <div class="enriched-chips">
+            <span class="chip naf">NAF : ${client.activity_code}</span>
+            <span class="chip">SIREN : ${client.siren}</span>
+            <span class="chip">📍 ${client.city}</span>
+            ${gouv ? '<span class="chip ok">✓ Enrichi via INSEE</span>' : '<span class="chip warn">⚠ Enrichissement partiel</span>'}
+            ${missingCount > 0 ? `<span class="chip missing">${missingCount} donnée${missingCount>1?'s':''} manquante${missingCount>1?'s':''}</span>` : ''}
+          </div>
         </div>
-        <div class="listing-card-right">
-          <div class="dossiers-badge${r.dossiers.length===0?' zero':''}">${r.dossiers.length} dossier${r.dossiers.length>1?'s':''}</div>
-          <div class="listing-chevron" id="chev-${i}">›</div>
+        <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap">
+          ${missingCount > 0 ? `<button class="btn-questionnaire" onclick="openQuestionnaire()">📝 Compléter le profil</button>` : ''}
+          <button class="btn-change" onclick="resetClientSelection()">Changer</button>
         </div>
       </div>
-      <div class="listing-dossiers" id="listing-${i}">
-        ${r.dossiers.length===0?`<div style="padding:16px 22px;color:var(--text3);font-size:13px">Aucun dossier correspondant.</div>`:r.dossiers.map(({client:c,score})=>`<div class="dossier-row"><div><div class="dossier-name">${c.name}</div><div class="dossier-meta">SIREN ${c.siren} · NAF ${c.activity_code} · ${c.city}</div></div><span class="match-score ${score>=3?'match-high':score>=2?'match-mid':'match-low'}">${score>=3?'✓ NAF exact':score>=2?'~ Secteur proche':'Général'}</span></div>`).join('')}
+      <div class="enriched-grid">
+        ${fields.map(f => `<div class="enriched-field"><div class="label">${f.label}</div><div class="value${!f.value?' missing':''}\">${f.value || (f.key ? 'Non renseigné' : '—')}</div></div>`).join('')}
       </div>
     </div>
-  `).join('');
-  wrap.scrollIntoView({behavior:'smooth',block:'start'});
+  `;
 }
  
-function toggleListing(i) { document.getElementById(`listing-${i}`).classList.toggle('open'); document.getElementById(`chev-${i}`).classList.toggle('open'); }
+// ─── QUESTIONNAIRE ────────────────────────────────────────
+function openQuestionnaire() {
+  if(!selectedClient) return;
+  const profile = clientProfiles[selectedClient.siren] || {};
  
-// RECHERCHE MANUELLE
-function buildFilters() { const row=document.getElementById('filters-row'); row.innerHTML='<span class="filter-label">Type :</span>'; [...new Set(aides.map(a=>a.type).filter(Boolean))].forEach(t=>{const c=document.createElement('div');c.className='filter-chip'+(activeFilters.has(t)?' active':'');c.textContent=t;c.onclick=()=>{activeFilters.has(t)?activeFilters.delete(t):activeFilters.add(t);buildFilters();renderManual();};row.appendChild(c);}); }
-function renderManual() { const q=document.getElementById('manual-search').value.toLowerCase().trim(); const f=aides.filter(a=>{if(activeFilters.size&&!activeFilters.has(a.type))return false;if(!q)return true;return[a.nom,a.type,a.conditions,a.region,...(a.secteur||[]),...(a.tags||[]),...(a.naf_codes||[])].join(' ').toLowerCase().includes(q);}); document.getElementById('manual-count').innerHTML=`<strong>${f.length}</strong> aide${f.length>1?'s':''} trouvée${f.length>1?'s':''}`; const cards=document.getElementById('manual-cards'); if(!f.length){cards.innerHTML=`<div class="empty-state"><div class="icon">🔍</div><p>Aucun résultat.</p></div>`;return;} cards.innerHTML=f.map(a=>`<div class="card" onclick="openModal(${a.id})"><div class="card-header"><div class="card-title">${a.nom}</div>${a.montant_max?`<div class="card-amount">${a.montant_max}</div>`:''}</div><div class="card-desc">${(a.conditions||'').substring(0,130)}${(a.conditions||'').length>130?'…':''}</div><div class="card-tags">${a.type?`<span class="tag type">${a.type}</span>`:''} ${(a.secteur||[]).slice(0,2).map(s=>`<span class="tag">${s}</span>`).join('')} ${(a.tags||[]).slice(0,3).map(t=>`<span class="tag">${t}</span>`).join('')}</div></div>`).join(''); }
+  // Détecter quels champs manquent ET sont utiles pour au moins une aide
+  const neededFields = getNeededFields();
  
-// MODAL
-function openModal(id) { const a=aides.find(x=>x.id===id);if(!a)return; document.getElementById('modal-content').innerHTML=`<button class="modal-close" onclick="document.getElementById('modal-overlay').classList.remove('open')">✕</button><h2>${a.nom}</h2>${a.montant_max?`<div class="modal-amount-big">Jusqu'à ${a.montant_max}</div>`:''} ${a.conditions?`<div class="modal-section"><h3>Conditions</h3><p>${a.conditions}</p></div>`:''} ${(a.actions_financees||[]).length?`<div class="modal-section"><h3>Actions financées</h3><ul>${a.actions_financees.map(x=>`<li>${x}</li>`).join('')}</ul></div>`:''} ${(a.naf_codes||[]).length?`<div class="modal-section"><h3>Codes NAF ciblés</h3><p>${a.naf_codes.join(', ')}</p></div>`:''} ${(a.secteur||[]).length?`<div class="modal-section"><h3>Secteurs</h3><p>${a.secteur.join(', ')}</p></div>`:''} ${(a.taille||[]).length?`<div class="modal-section"><h3>Taille entreprise</h3><p>${a.taille.join(', ')}</p></div>`:''} ${a.region?`<div class="modal-section"><h3>Zone géographique</h3><p>${a.region}</p></div>`:''}<div class="modal-section">${a.source?`<a class="modal-link" href="${a.source}" target="_blank">🔗 Source officielle</a>`:''} ${a.simulateur?`<a class="modal-link" href="${a.simulateur}" target="_blank">🧮 Simulateur</a>`:''}</div>`; document.getElementById('modal-overlay').classList.add('open'); }
-function closeModal(e) { if(e.target===document.getElementById('modal-overlay'))document.getElementById('modal-overlay').classList.remove('open'); }
+  if(!neededFields.length){ showToast('Profil déjà complet !'); return; }
  
-// ADMIN
-function showPage(name) { document.querySelectorAll('.page').forEach(p=>p.classList.remove('active')); document.querySelectorAll('.nav-btn').forEach(b=>b.classList.remove('active')); if(name==='admin-gate'){if(sessionStorage.getItem('admin_ok')){document.getElementById('page-admin').classList.add('active');renderAdminFull();}else document.getElementById('page-admin-gate').classList.add('active');document.querySelectorAll('.nav-btn')[1].classList.add('active');}else{document.getElementById('page-public').classList.add('active');document.querySelectorAll('.nav-btn')[0].classList.add('active');} }
-function checkPwd() { if(document.getElementById('pwd-input').value===ADMIN_PWD){sessionStorage.setItem('admin_ok','1');document.getElementById('page-admin-gate').classList.remove('active');document.getElementById('page-admin').classList.add('active');renderAdminFull();document.getElementById('pwd-err').textContent='';}else{document.getElementById('pwd-err').textContent='Mot de passe incorrect.';document.getElementById('pwd-input').value='';} }
-function renderAdminFull() { renderCabinetsAdmin(); renderAdminTable(); }
-function renderAdminTable() { document.getElementById('count-badge').textContent=aides.length; document.getElementById('admin-table-body').innerHTML=aides.map(a=>`<tr><td class="name-cell">${a.nom}</td><td>${a.type||'—'}</td><td>${a.montant_max||'—'}</td><td style="font-size:11px;color:var(--text3)">${(a.naf_codes||[]).slice(0,3).join(', ')||'Tous'}</td><td><button class="btn-del" onclick="deleteAide(${a.id})">✕</button></td></tr>`).join('')||'<tr><td colspan="5" style="color:var(--text3);padding:20px;text-align:center">Aucune aide</td></tr>'; }
-function deleteAide(id) { if(!confirm('Supprimer ?'))return; aides=aides.filter(a=>a.id!==id); save(); renderAdminTable(); showToast('Supprimée'); }
-function addAide() { const nom=document.getElementById('f-nom').value.trim(),type=document.getElementById('f-type').value,cond=document.getElementById('f-conditions').value.trim(); if(!nom||!type||!cond){showToast('Remplissez les champs *');return;} const split=v=>v.split(',').map(x=>x.trim()).filter(Boolean); const id=Math.max(0,...aides.map(a=>a.id))+1; aides.push({id,nom,type,montant_max:document.getElementById('f-montant').value.trim(),naf_codes:split(document.getElementById('f-naf').value),secteur:split(document.getElementById('f-secteur').value),taille:split(document.getElementById('f-taille').value),region:document.getElementById('f-region').value.trim()||'Toutes',conditions:cond,actions_financees:split(document.getElementById('f-actions').value),tags:split(document.getElementById('f-tags').value),source:document.getElementById('f-source').value.trim(),simulateur:document.getElementById('f-simu').value.trim()}); save(); clearForm(); renderAdminTable(); buildFilters(); showToast('Aide ajoutée !'); }
-function clearForm() { ['f-nom','f-type','f-montant','f-naf','f-secteur','f-taille','f-region','f-conditions','f-actions','f-tags','f-source','f-simu'].forEach(id=>{document.getElementById(id).value='';}); }
-function importJSON(input) { const file=input.files[0];if(!file)return; const r=new FileReader(); r.onload=e=>{try{let data=JSON.parse(e.target.result);if(!Array.isArray(data))data=[data];const maxId=Math.max(0,...aides.map(a=>a.id));data.forEach((item,i)=>{if(!item.id)item.id=maxId+i+1;});aides=[...aides,...data];save();renderAdminTable();buildFilters();showToast(`${data.length} aide(s) importée(s) !`);}catch{showToast('JSON invalide');}};r.readAsText(file);input.value=''; }
+  questionnairePending = { siren: selectedClient.siren, fields: neededFields };
+  document.getElementById('quest-subtitle').textContent = `Pour ${selectedClient.name} — ${neededFields.length} information${neededFields.length>1?'s':''} requise${neededFields.length>1?'s':''} pour affiner l'analyse.`;
+ 
+  document.getElementById('quest-fields').innerHTML = neededFields.map(f => `
+    <div class="quest-field">
+      <label>${f.label}${f.required?' *':''}</label>
+      ${f.type === 'select'
+        ? `<select id="qf-${f.key}"><option value="">-- Choisir --</option>${f.options.map(o=>`<option value="${o.v}" ${profile[f.key]===o.v?'selected':''}>${o.l}</option>`).join('')}</select>`
+        : `<input type="${f.inputType||'text'}" id="qf-${f.key}" value="${profile[f.key]||''}" placeholder="${f.placeholder||''}">`
+      }
+      ${f.hint ? `<div class="hint">${f.hint}</div>` : ''}
+    </div>
+  `).join('');
+ 
+  document.getElementById('quest-overlay').classList.add('open');
+  document.getElementById('github-save-status').textContent = '';
+}
+ 
+function getNeededFields() {
+  const profile = clientProfiles[selectedClient?.siren] || {};
+  const allFields = [
+    { key:'effectif', label:'Effectif salarié', inputType:'number', placeholder:'Ex: 12', hint:'Nombre total de salariés', required:true },
+    { key:'ca', label:'Chiffre d\'affaires annuel (€)', inputType:'number', placeholder:'Ex: 500000', hint:'Dernier exercice clos' },
+    { key:'date_creation', label:'Date de création', inputType:'date', hint:'Format JJ/MM/AAAA' },
+    { key:'idcc', label:'Convention collective (IDCC)', inputType:'text', placeholder:'Ex: 1597', hint:'Code IDCC de la convention collective applicable' },
+    { key:'caractere_employeur', label:'Caractère employeur', type:'select', options:[{v:'O',l:'Oui — emploie du personnel'},{v:'N',l:'Non — sans salarié'}] },
+    { key:'forme_juridique', label:'Forme juridique', type:'select', options:[{v:'SARL',l:'SARL'},{v:'SAS',l:'SAS'},{v:'SASU',l:'SASU'},{v:'EURL',l:'EURL'},{v:'SA',l:'SA'},{v:'EI',l:'Entreprise individuelle'},{v:'ASSOCIATION',l:'Association'}] },
+  ];
+  // Retourner uniquement les champs non déjà renseignés (ni via data.gouv ni via profil)
+  return allFields.filter(f => {
+    if(f.key==='effectif') return !enrichedData?.tranche_effectif && !profile.effectif;
+    if(f.key==='date_creation') return !enrichedData?.date_creation && !profile.date_creation;
+    if(f.key==='caractere_employeur') return !enrichedData?.caractere_employeur && !profile.caractere_employeur;
+    if(f.key==='forme_juridique') return !enrichedData?.forme_juridique && !profile.forme_juridique;
+    return !profile[f.key];
+  });
+}
+ 
+async function saveQuestionnaire() {
+  if(!questionnairePending) return;
+  const {siren, fields} = questionnairePending;
+  const profile = clientProfiles[siren] || {};
+  fields.forEach(f => {
+    const val = document.getElementById(`qf-${f.key}`)?.value?.trim();
+    if(val) profile[f.key] = val;
+  });
+  clientProfiles[siren] = profile;
+  localStorage.setItem('client_profiles', JSON.stringify(clientProfiles));
+ 
+  const status = document.getElementById('github-save-status');
+  status.textContent = '⏳ Sauvegarde sur GitHub...';
+  const ok = await saveProfileToGithub(siren, profile);
+  status.textContent = ok ? '✓ Sauvegardé sur GitHub' : '⚠ Sauvegarde locale uniquement (vérifiez le token GitHub)';
+ 
+  closeQuestionnaire();
+  showToast('Profil complété !');
+ 
+  // Rafraîchir l'affichage
+  if(selectedClient) {
+    renderEnrichedClient(selectedClient, enrichedData, clientProfiles[siren]);
+    renderAidesFromClient(selectedClient, enrichedData, clientProfiles[siren]);
+  }
+}
+ 
+function closeQuestionnaire() {
+  document.getElementById('quest-overlay').classList.remove('open');
+  questionnairePending = null;
+}
+ 
+// ─── ANALYSE ÉLIGIBILITÉ ──────────────────────────────────
+function analyzeEligibility(aide, gouv, profile) {
+  const checks = [];
+  const effectif = profile.effectif ? parseInt(profile.effectif) : (gouv?.effectif_min !== null ? gouv.effectif_min : null);
+  const effectifMax = gouv?.effectif_max !== null ? gouv.effectif_max : (profile.effectif ? parseInt(profile.effectif) : null);
+  const ageMois = gouv?.age_mois || (profile.date_creation ? Math.floor((Date.now()-new Date(profile.date_creation))/(1000*60*60*24*30)) : null);
+  const employeur = gouv?.caractere_employeur || profile.caractere_employeur || null;
+  const formeJuridique = gouv?.forme_juridique || profile.forme_juridique || null;
+  const ca = profile.ca ? parseFloat(profile.ca) : null;
+  const idcc = profile.idcc || null;
+ 
+  // Vérification effectif
+  if(aide.effectif_min !== null && aide.effectif_min !== undefined && aide.effectif_min !== '') {
+    if(effectif===null) checks.push({ok:'unknown',msg:`Effectif requis ≥ ${aide.effectif_min} sal. (non renseigné)`});
+    else if(effectifMax < parseInt(aide.effectif_min)) checks.push({ok:false,msg:`Effectif trop faible (${effectifMax} < ${aide.effectif_min})`});
+    else checks.push({ok:true,msg:`Effectif ✓`});
+  }
+  if(aide.effectif_max !== null && aide.effectif_max !== undefined && aide.effectif_max !== '') {
+    if(effectif===null) checks.push({ok:'unknown',msg:`Effectif requis ≤ ${aide.effectif_max} sal. (non renseigné)`});
+    else if(effectif > parseInt(aide.effectif_max)) checks.push({ok:false,msg:`Effectif trop élevé (${effectif} > ${aide.effectif_max})`});
+    else checks.push({ok:true,msg:`Seuil effectif ✓`});
+  }
+  // Vérification ancienneté
+  if(aide.age_min_mois) {
+    if(ageMois===null) checks.push({ok:'unknown',msg:`Ancienneté requise ≥ ${aide.age_min_mois} mois (non renseignée)`});
+    else if(ageMois < parseInt(aide.age_min_mois)) checks.push({ok:false,msg:`Trop récente (${ageMois} mois < ${aide.age_min_mois})`});
+    else checks.push({ok:true,msg:`Ancienneté ✓`});
+  }
+  // CA
+  if(aide.ca_min) { if(ca===null) checks.push({ok:'unknown',msg:`CA requis ≥ ${Number(aide.ca_min).toLocaleString('fr')}€ (non renseigné)`}); else if(ca<aide.ca_min) checks.push({ok:false,msg:`CA insuffisant`}); else checks.push({ok:true,msg:`CA ✓`}); }
+  if(aide.ca_max) { if(ca===null) checks.push({ok:'unknown',msg:`CA requis ≤ ${Number(aide.ca_max).toLocaleString('fr')}€ (non renseigné)`}); else if(ca>aide.ca_max) checks.push({ok:false,msg:`CA trop élevé`}); else checks.push({ok:true,msg:`Plafond CA ✓`}); }
+  // Employeur
+  if(aide.caractere_employeur) { if(!employeur) checks.push({ok:'unknown',msg:'Caractère employeur non renseigné'}); else if(aide.caractere_employeur!==employeur) checks.push({ok:false,msg:`Caractère employeur incompatible`}); else checks.push({ok:true,msg:'Caractère employeur ✓'}); }
+  // Forme juridique
+  if((aide.formes_juridiques||[]).length) { if(!formeJuridique) checks.push({ok:'unknown',msg:'Forme juridique non renseignée'}); else if(!aide.formes_juridiques.some(f=>formeJuridique.toUpperCase().includes(f.toUpperCase()))) checks.push({ok:false,msg:`Forme juridique incompatible (${formeJuridique})`}); else checks.push({ok:true,msg:'Forme juridique ✓'}); }
+  // IDCC
+  if(aide.idcc) { if(!idcc) checks.push({ok:'unknown',msg:`Convention collective IDCC ${aide.idcc} requise (non renseignée)`}); else if(idcc!==String(aide.idcc)) checks.push({ok:false,msg:`Convention collective incompatible`}); else checks.push({ok:true,msg:'Convention collective ✓'}); }
+  // NAF
+  const nafCode = selectedClient?.activity_code||'';
+  const matchNaf = (aide.naf_codes||[]).some(n=>n.replace(/\./g,'').toLowerCase()===nafCode.replace(/\./g,'').toLowerCase());
+  const secteur = nafToSecteur(nafCode);
+  const matchSecteur = secteur&&(aide.secteur||[]).some(s=>s.toLowerCase().includes(secteur.toLowerCase())||secteur.toLowerCase().includes(s.toLowerCase()));
+  if((aide.naf_codes||[]).length||(aide.secteur||[]).length) {
+    if(matchNaf) checks.push({ok:true,msg:'Code NAF correspondant ✓'});
+    else if(matchSecteur) checks.push({ok:true,msg:'Secteur proche ✓'});
+    else if((aide.naf_codes||[]).length) checks.push({ok:false,msg:'Code NAF non ciblé'});
+  }
+ 
+  const hasFailure = checks.some(c=>c.ok===false);
+  const hasUnknown = checks.some(c=>c.ok==='unknown');
+  const status = hasFailure ? 'ineligible' : hasUnknown ? 'partial' : checks.length > 0 ? 'eligible' : 'eligible';
+  return { status, checks };
+}
+ 
+function renderAidesFromClient(client, gouv, profile) {
+  const container = document.getElementById('aides-from-client');
+  if(!aides.length){container.innerHTML=`<div class="empty-state"><div class="icon">📂</div><p>Aucune aide dans la base.</p></div>`;return;}
+ 
+  const analyzed = aides.map(a => {
+    const {status,checks} = analyzeEligibility(a, gouv, profile||{});
+    return {...a, status, checks};
+  }).sort((a,b)=>{const o={eligible:0,partial:1,ineligible:2};return(o[a.status]||1)-(o[b.status]||1);});
+ 
+  const eligCount = analyzed.filter(a=>a.status==='eligible').length;
+  const partCount = analyzed.filter(a=>a.status==='partial').length;
+ 
+  container.innerHTML=`
+    <div class="aides-header">
+      <h3>Analyse d'éligibilité</h3>
+      <div class="results-count">
+        <strong style="color:var(--accent)">${eligCount}</strong> éligible${eligCount>1?'s':''} · 
+        <strong style="color:#f5a623">${partCount}</strong> à vérifier
+      </div>
+    </div>
+    <div class="cards">
+      ${analyzed.map(a=>`
+        <div class="card ${a.status}" onclick="openModal(${a.id})">
+          <div class="card-header">
+            <div class="card-title">${a.nom}</div>
+            ${a.montant_max?`<div class="card-amount">${a.montant_max}</div>`:''}
+          </div>
+          <div class="card-desc">${(a.conditions||'').substring(0,120)}${(a.conditions||'').length>120?'…':''}</div>
+          <div class="card-tags">
+            ${a.type?`<span class="tag type">${a.type}</span>`:''}
+            <span class="tag ${a.status}">${a.status==='eligible'?'✓ Éligible':a.status==='partial'?'⚠ À vérifier':'✗ Non éligible'}</span>
+            ${a.checks.filter(c=>c.ok==='unknown').slice(0,2).map(c=>`<span class="tag partial">? ${c.msg}</span>`).join('')}
+            ${a.checks.filter(c=>c.ok===false).slice(0,1).map(c=>`<span class="tag ineligible">✗ ${c.msg}</span>`).join('')}
+          </div>
+        </div>
+      `).join('')}
+    </div>
+  `;
+}
+ 
+function getRegionFromPostal(cp) { const d=(cp||'').substring(0,2),m={'75':'Île-de-France','77':'Île-de-France','78':'Île-de-France','91':'Île-de-France','92':'Île-de-France','93':'Île-de-France','94':'Île-de-France','95':'Île-de-France','44':'Pays de la Loire','49':'Pays de la Loire','53':'Pays de la Loire','72':'Pays de la Loire','85':'Pays de la Loire','33':'Nouvelle-Aquitaine','64':'Nouvelle-Aquitaine','13':'PACA','06':'PACA','69':'Auvergne-Rhône-Alpes','38':'Auvergne-Rhône-Alpes','31':'Occitanie','34':'Occitanie','59':'Hauts-de-France','62':'Hauts-de-France','67':'Grand Est','68':'Grand Est','35':'Bretagne','22':'Bretagne','29':'Bretagne','56':'Bretagne'}; return m[d]||null; }
+ 
+function resetClientSelection() { selectedClient=null; enrichedData=null; document.getElementById('selected-client-wrap').style.display='none'; document.getElementById('aides-from-client').innerHTML=''; document.getElementById('pl-results').innerHTML=''; document.getElementById('pl-search-input').value=''; }
+ 
+// ─── LISTING ──────────────────────────────────────────────
+function scoreMatch(client,aide){ let s=0; const n=(client.activity_code||'').replace(/\./g,'').toLowerCase(),sec=nafToSecteur(client.activity_code); if((aide.naf_codes||[]).some(x=>x.replace(/\./g,'').toLowerCase()===n))s+=3; else if(sec&&(aide.secteur||[]).some(x=>x.toLowerCase().includes(sec.toLowerCase())||sec.toLowerCase().includes(x.toLowerCase())))s+=2; if(!(aide.naf_codes||[]).length&&!(aide.secteur||[]).length)s=1; return s; }
+function showListing() {
+  if(!clientsCache.length){showToast('Clients non chargés');return;}
+  const wrap=document.getElementById('listing-wrap');
+  wrap.innerHTML=`<div style="color:var(--text3);font-size:13px;margin-bottom:20px">${aides.length} subvention${aides.length>1?'s':''} × ${clientsCache.length} dossiers</div>`;
+  const results=aides.map(aide=>{const dossiers=clientsCache.map(c=>({client:c,score:scoreMatch(c,aide)})).filter(x=>x.score>0).sort((a,b)=>b.score-a.score);return{aide,dossiers};}).sort((a,b)=>b.dossiers.length-a.dossiers.length);
+  wrap.innerHTML+=results.map((r,i)=>`<div class="listing-card"><div class="listing-card-header" onclick="toggleListing(${i})"><div class="listing-card-left"><h4>${r.aide.nom}</h4><div class="meta">${r.aide.type||''}${r.aide.montant_max?' · '+r.aide.montant_max:''}</div></div><div class="listing-card-right"><div class="dossiers-badge${r.dossiers.length===0?' zero':''}">${r.dossiers.length} dossier${r.dossiers.length>1?'s':''}</div><div class="listing-chevron" id="chev-${i}">›</div></div></div><div class="listing-dossiers" id="listing-${i}">${r.dossiers.length===0?`<div style="padding:16px 22px;color:var(--text3);font-size:13px">Aucun dossier correspondant.</div>`:r.dossiers.map(({client:c,score})=>`<div class="dossier-row"><div><div class="dossier-name">${c.name}</div><div class="dossier-meta">SIREN ${c.siren} · NAF ${c.activity_code} · ${c.city}</div></div><span class="match-score ${score>=3?'match-high':score>=2?'match-mid':'match-low'}">${score>=3?'✓ NAF exact':score>=2?'~ Secteur proche':'Général'}</span></div>`).join('')}</div></div>`).join('');
+  wrap.scrollIntoView({behavior:'smooth',block:'start'});
+}
+function toggleListing(i){document.getElementById(`listing-${i}`).classList.toggle('open');document.getElementById(`chev-${i}`).classList.toggle('open');}
+ 
+// ─── MANUEL ───────────────────────────────────────────────
+function buildFilters(){const row=document.getElementById('filters-row');row.innerHTML='<span class="filter-label">Type :</span>';[...new Set(aides.map(a=>a.type).filter(Boolean))].forEach(t=>{const c=document.createElement('div');c.className='filter-chip'+(activeFilters.has(t)?' active':'');c.textContent=t;c.onclick=()=>{activeFilters.has(t)?activeFilters.delete(t):activeFilters.add(t);buildFilters();renderManual();};row.appendChild(c);});}
+function renderManual(){const q=document.getElementById('manual-search').value.toLowerCase().trim();const f=aides.filter(a=>{if(activeFilters.size&&!activeFilters.has(a.type))return false;if(!q)return true;return[a.nom,a.type,a.conditions,a.region,...(a.secteur||[]),...(a.tags||[]),...(a.naf_codes||[])].join(' ').toLowerCase().includes(q);});document.getElementById('manual-count').innerHTML=`<strong>${f.length}</strong> aide${f.length>1?'s':''} trouvée${f.length>1?'s':''}`;const cards=document.getElementById('manual-cards');if(!f.length){cards.innerHTML=`<div class="empty-state"><div class="icon">🔍</div><p>Aucun résultat.</p></div>`;return;}cards.innerHTML=f.map(a=>`<div class="card" onclick="openModal(${a.id})"><div class="card-header"><div class="card-title">${a.nom}</div>${a.montant_max?`<div class="card-amount">${a.montant_max}</div>`:''}</div><div class="card-desc">${(a.conditions||'').substring(0,130)}${(a.conditions||'').length>130?'…':''}</div><div class="card-tags">${a.type?`<span class="tag type">${a.type}</span>`:''} ${(a.secteur||[]).slice(0,2).map(s=>`<span class="tag">${s}</span>`).join('')} ${(a.tags||[]).slice(0,3).map(t=>`<span class="tag">${t}</span>`).join('')}</div></div>`).join('');}
+ 
+// ─── MODAL AIDE ───────────────────────────────────────────
+function openModal(id){
+  const a=aides.find(x=>x.id===id); if(!a) return;
+  let eligBanner='';
+  if(selectedClient){const{status,checks}=analyzeEligibility(a,enrichedData,clientProfiles[selectedClient.siren]||{});const labels={eligible:'✓ Éligible a priori',partial:'⚠ À vérifier — informations manquantes',ineligible:'✗ Non éligible sur les critères analysés'};eligBanner=`<div class="eligibility-banner ${status}"><strong>${labels[status]}</strong><ul style="margin-top:8px;padding-left:16px">${checks.map(c=>`<li style="opacity:${c.ok===true?1:0.8}">${c.ok===true?'✓':c.ok==='unknown'?'?':'✗'} ${c.msg}</li>`).join('')}</ul></div>`;}
+  document.getElementById('modal-content').innerHTML=`<button class="modal-close" onclick="document.getElementById('modal-overlay').classList.remove('open')">✕</button><h2>${a.nom}</h2>${a.montant_max?`<div class="modal-amount-big">Jusqu'à ${a.montant_max}</div>`:''} ${eligBanner} ${a.conditions?`<div class="modal-section"><h3>Conditions</h3><p>${a.conditions}</p></div>`:''} ${(a.actions_financees||[]).length?`<div class="modal-section"><h3>Actions financées</h3><ul>${a.actions_financees.map(x=>`<li>${x}</li>`).join('')}</ul></div>`:''} ${(a.naf_codes||[]).length?`<div class="modal-section"><h3>Codes NAF ciblés</h3><p>${a.naf_codes.join(', ')}</p></div>`:''} ${(a.secteur||[]).length?`<div class="modal-section"><h3>Secteurs</h3><p>${a.secteur.join(', ')}</p></div>`:''} ${a.effectif_min||a.effectif_max?`<div class="modal-section"><h3>Effectif</h3><p>${a.effectif_min||0} — ${a.effectif_max||'illimité'} salariés</p></div>`:''} ${a.age_min_mois?`<div class="modal-section"><h3>Ancienneté minimale</h3><p>${a.age_min_mois} mois</p></div>`:''} ${a.region?`<div class="modal-section"><h3>Zone géographique</h3><p>${a.region}</p></div>`:''}<div class="modal-section">${a.source?`<a class="modal-link" href="${a.source}" target="_blank">🔗 Source officielle</a>`:''} ${a.simulateur?`<a class="modal-link" href="${a.simulateur}" target="_blank">🧮 Simulateur</a>`:''}</div>`;
+  document.getElementById('modal-overlay').classList.add('open');
+}
+function closeModal(e){if(e.target===document.getElementById('modal-overlay'))document.getElementById('modal-overlay').classList.remove('open');}
+ 
+// ─── ADMIN ────────────────────────────────────────────────
+function showPage(name){document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));document.querySelectorAll('.nav-btn').forEach(b=>b.classList.remove('active'));if(name==='admin-gate'){if(sessionStorage.getItem('admin_ok')){document.getElementById('page-admin').classList.add('active');renderAdminFull();}else document.getElementById('page-admin-gate').classList.add('active');document.querySelectorAll('.nav-btn')[1].classList.add('active');}else{document.getElementById('page-public').classList.add('active');document.querySelectorAll('.nav-btn')[0].classList.add('active');}}
+function checkPwd(){if(document.getElementById('pwd-input').value===ADMIN_PWD){sessionStorage.setItem('admin_ok','1');document.getElementById('page-admin-gate').classList.remove('active');document.getElementById('page-admin').classList.add('active');renderAdminFull();document.getElementById('pwd-err').textContent='';}else{document.getElementById('pwd-err').textContent='Mot de passe incorrect.';document.getElementById('pwd-input').value='';}}
+function renderAdminFull(){renderCabinetsAdmin();renderAdminTable();const{token,repo}=loadGithubConfig();document.getElementById('gh-token').value=token;document.getElementById('gh-repo').value=repo;}
+function renderAdminTable(){document.getElementById('count-badge').textContent=aides.length;document.getElementById('admin-table-body').innerHTML=aides.map(a=>`<tr><td class="name-cell">${a.nom}</td><td>${a.type||'—'}</td><td>${a.montant_max||'—'}</td><td style="font-size:11px;color:var(--text3)">${a.effectif_min||0}—${a.effectif_max||'∞'}</td><td style="font-size:11px;color:var(--text3)">${(a.naf_codes||[]).slice(0,2).join(', ')||'Tous'}</td><td><button class="btn-del" onclick="deleteAide(${a.id})">✕</button></td></tr>`).join('')||'<tr><td colspan="6" style="color:var(--text3);padding:20px;text-align:center">Aucune aide</td></tr>';}
+function deleteAide(id){if(!confirm('Supprimer ?'))return;aides=aides.filter(a=>a.id!==id);save();renderAdminTable();showToast('Supprimée');}
+function addAide(){
+  const nom=document.getElementById('f-nom').value.trim(),type=document.getElementById('f-type').value,cond=document.getElementById('f-conditions').value.trim();
+  if(!nom||!type||!cond){showToast('Remplissez les champs *');return;}
+  const split=v=>v.split(',').map(x=>x.trim()).filter(Boolean);
+  const num=v=>{const n=document.getElementById(v).value.trim();return n===''?null:parseFloat(n);};
+  const id=Math.max(0,...aides.map(a=>a.id))+1;
+  aides.push({id,nom,type,montant_max:document.getElementById('f-montant').value.trim(),conditions:cond,effectif_min:num('f-eff-min'),effectif_max:num('f-eff-max'),ca_min:num('f-ca-min'),ca_max:num('f-ca-max'),age_min_mois:num('f-age-min'),formes_juridiques:split(document.getElementById('f-formes').value),naf_codes:split(document.getElementById('f-naf').value),secteur:split(document.getElementById('f-secteur').value),region:document.getElementById('f-region').value.trim()||'Toutes',idcc:document.getElementById('f-idcc').value.trim()||null,caractere_employeur:document.getElementById('f-employeur').value||'',tags:split(document.getElementById('f-tags').value),source:document.getElementById('f-source').value.trim(),simulateur:document.getElementById('f-simu').value.trim(),actions_financees:[]});
+  save();clearForm();renderAdminTable();buildFilters();showToast('Aide ajoutée !');
+}
+function clearForm(){['f-nom','f-type','f-montant','f-conditions','f-eff-min','f-eff-max','f-ca-min','f-ca-max','f-age-min','f-formes','f-naf','f-secteur','f-region','f-idcc','f-employeur','f-tags','f-source','f-simu'].forEach(id=>{const el=document.getElementById(id);if(el)el.value='';});}
+function importJSON(input){const file=input.files[0];if(!file)return;const r=new FileReader();r.onload=e=>{try{let data=JSON.parse(e.target.result);if(!Array.isArray(data))data=[data];const maxId=Math.max(0,...aides.map(a=>a.id));data.forEach((item,i)=>{if(!item.id)item.id=maxId+i+1;});aides=[...aides,...data];save();renderAdminTable();buildFilters();showToast(`${data.length} aide(s) importée(s) !`);}catch{showToast('JSON invalide');}};r.readAsText(file);input.value='';}
 function dragOver(e){e.preventDefault();document.getElementById('drop-zone').classList.add('dragover');}
 function dragLeave(){document.getElementById('drop-zone').classList.remove('dragover');}
 function dropFile(e){e.preventDefault();dragLeave();const f=e.dataTransfer.files[0];if(!f||!f.name.endsWith('.json')){showToast('.json uniquement');return;}importJSON({files:[f]});}
-function exportJSON() { const b=new Blob([JSON.stringify(aides,null,2)],{type:'application/json'});const a=document.createElement('a');a.href=URL.createObjectURL(b);a.download='aides-subventions.json';a.click();showToast('Export téléchargé !'); }
-async function testCabinet() { const token=getSelectedToken();if(!token){showToast('Clé API non configurée');return;} try{const r=await fetch(`${PROXY_BASE}?per_page=1`,{headers:{'Authorization':`Bearer ${token}`}});r.ok?showToast('✓ Connexion Pennylane OK'):showToast(`Erreur ${r.status}`);}catch{showToast('Impossible de joindre le proxy');} }
-function switchTab(name) { document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active')); document.querySelectorAll('.tab-content').forEach(t=>t.classList.remove('active')); document.getElementById('tab-'+name).classList.add('active'); event.target.classList.add('active'); }
+function exportJSON(){const b=new Blob([JSON.stringify(aides,null,2)],{type:'application/json'});const a=document.createElement('a');a.href=URL.createObjectURL(b);a.download='aides-subventions.json';a.click();showToast('Export téléchargé !');}
+function switchTab(name){document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));document.querySelectorAll('.tab-content').forEach(t=>t.classList.remove('active'));document.getElementById('tab-'+name).classList.add('active');event.target.classList.add('active');}
 function save(){localStorage.setItem('aides_db',JSON.stringify(aides));}
-function showToast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),3000);}
+function showToast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),3200);}
 function renderAll(){populateCabinetSelect();buildFilters();renderManual();}
 renderAll();
 </script>
