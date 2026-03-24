@@ -348,7 +348,35 @@
           <button onclick="aiFetchUrl()" style="background:var(--surface2);border:1px solid var(--border);color:var(--text2);font-family:var(--font-body);font-size:12px;padding:10px 16px;border-radius:8px;cursor:pointer;white-space:nowrap;transition:all .2s">Charger</button>
         </div>
         <div id="ai-url-preview" style="display:none;background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:12px;font-size:12px;color:var(--text2);max-height:100px;overflow-y:auto;line-height:1.6;margin-bottom:4px"></div>
-        <div style="font-size:11px;color:var(--text3);margin-top:6px">Astuce : préfixez l'URL avec <code style="background:var(--surface2);padding:1px 6px;border-radius:4px">https://r.jina.ai/</code> pour une extraction plus propre</div>
+        <div style="font-size:11px;color:var(--text3);margin-top:6px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:6px">
+          <span>Astuce : préfixez l'URL avec <code style="background:var(--surface2);padding:1px 6px;border-radius:4px">https://r.jina.ai/</code> pour une extraction plus propre</span>
+          <button onclick="document.getElementById('ai-reader-tip').style.display=document.getElementById('ai-reader-tip').style.display==='none'?'block':'none'" style="background:none;border:1px solid var(--border);color:var(--text3);font-size:11px;padding:3px 10px;border-radius:20px;cursor:pointer;white-space:nowrap;transition:all .2s">ℹ Mode lecteur</button>
+        </div>
+        <div id="ai-reader-tip" style="display:none;margin-top:10px;background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:14px;font-size:12px;line-height:1.8;color:var(--text2)">
+          <div style="font-weight:600;color:var(--text);margin-bottom:10px">Si le site bloque le chargement automatique, activez le mode lecteur dans votre navigateur, copiez le texte et collez-le dans l'onglet Texte.</div>
+          <div style="display:grid;gap:8px">
+            <div style="background:var(--surface);border-radius:6px;padding:10px 12px">
+              <div style="color:var(--accent);font-weight:600;margin-bottom:2px">Firefox</div>
+              Icône livre dans la barre d'adresse (ou <code style="background:var(--surface2);padding:1px 5px;border-radius:3px">F9</code>) — disponible nativement sur les articles.
+            </div>
+            <div style="background:var(--surface);border-radius:6px;padding:10px 12px">
+              <div style="color:var(--accent);font-weight:600;margin-bottom:2px">Brave</div>
+              À activer une fois : copiez <code style="background:var(--surface2);padding:1px 5px;border-radius:3px">brave://flags/#enable-reader-mode</code> dans la barre d'adresse → Enabled → Relancer. Ensuite icône livre dans la barre d'adresse.
+            </div>
+            <div style="background:var(--surface);border-radius:6px;padding:10px 12px">
+              <div style="color:var(--accent);font-weight:600;margin-bottom:2px">Edge</div>
+              Icône livre dans la barre d'adresse (ou <code style="background:var(--surface2);padding:1px 5px;border-radius:3px">F9</code>) — disponible nativement, fonctionne très bien.
+            </div>
+            <div style="background:var(--surface);border-radius:6px;padding:10px 12px">
+              <div style="color:var(--accent);font-weight:600;margin-bottom:2px">Chrome</div>
+              Pas de mode lecteur natif. Alternatives : extension <strong>Reader View</strong> (Chrome Web Store) ou préfixer l'URL avec <code style="background:var(--surface2);padding:1px 5px;border-radius:3px">https://r.jina.ai/</code> dans la barre d'adresse.
+            </div>
+            <div style="background:var(--surface);border-radius:6px;padding:10px 12px">
+              <div style="color:var(--accent);font-weight:600;margin-bottom:2px">Tous navigateurs — alternative universelle</div>
+              Tapez <code style="background:var(--surface2);padding:1px 5px;border-radius:3px">https://r.jina.ai/</code> devant n'importe quelle URL dans la barre d'adresse → le texte brut s'affiche → copiez-le.
+            </div>
+          </div>
+        </div>
       </div>
  
       <!-- PDF -->
