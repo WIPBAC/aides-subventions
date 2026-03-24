@@ -533,8 +533,30 @@ async function enrichFromDataGouv(siren) {
     const data = await r.json();
     const res = data.results?.[0];
     if(!res) return null;
+ 
+    // Récupère le SIRET du siège pour appeler siret2idcc
+    const siret = res.siege?.siret || null;
+ 
+    // Appel siret2idcc en parallèle si on a le SIRET
+    let idcc = null, idcc_libelle = null;
+    if(siret) {
+      try {
+        const ri = await fetch(`https://siret2idcc.fabrique.social.gouv.fr/api/v2/${siret}`);
+        if(ri.ok) {
+          const di = await ri.json();
+          const conventions = di[0]?.conventions || [];
+          const active = conventions.filter(c => c.active !== false);
+          if(active.length > 0) {
+            idcc = String(active[0].num);
+            idcc_libelle = active[0].shortTitle || active[0].title || null;
+          }
+        }
+      } catch {}
+    }
+ 
     return {
       siren: res.siren,
+      siret,
       forme_juridique: res.nature_juridique_libelle || res.nature_juridique || null,
       forme_juridique_code: res.nature_juridique || null,
       tranche_effectif: res.tranche_effectif_salarie || null,
@@ -547,6 +569,8 @@ async function enrichFromDataGouv(siren) {
       statut: res.etat_administratif || null,
       naf: res.activite_principale || null,
       denomination: res.nom_complet || res.denomination || null,
+      idcc,
+      idcc_libelle,
     };
   } catch(e){ return null; }
 }
@@ -628,7 +652,7 @@ function renderEnrichedClient(client, gouv, profile) {
     { label:'Ancienneté', value: gouv?.age_mois ? `${Math.floor(gouv.age_mois/12)} ans` : null, key: null },
     { label:'Employeur', value: gouv?.caractere_employeur === 'O' ? 'Oui' : gouv?.caractere_employeur === 'N' ? 'Non' : (profile.caractere_employeur||null), key:'caractere_employeur' },
     { label:'CA annuel', value: profile.ca ? `${Number(profile.ca).toLocaleString('fr')}€` : null, key:'ca' },
-    { label:'Conv. collective', value: profile.idcc || null, key:'idcc' },
+    { label:'Conv. collective', value: gouv?.idcc ? `${gouv.idcc}${gouv.idcc_libelle ? ' — '+gouv.idcc_libelle : ''}` : (profile.idcc || null), key:'idcc' },
   ];
  
   const missingCount = fields.filter(f => f.key && !f.value).length;
@@ -702,6 +726,7 @@ function getNeededFields() {
     if(f.key==='date_creation') return !enrichedData?.date_creation && !profile.date_creation;
     if(f.key==='caractere_employeur') return !enrichedData?.caractere_employeur && !profile.caractere_employeur;
     if(f.key==='forme_juridique') return !enrichedData?.forme_juridique && !profile.forme_juridique;
+    if(f.key==='idcc') return !enrichedData?.idcc && !profile.idcc;
     return !profile[f.key];
   });
 }
@@ -746,7 +771,7 @@ function analyzeEligibility(aide, gouv, profile) {
   const employeur = gouv?.caractere_employeur || profile.caractere_employeur || null;
   const formeJuridique = gouv?.forme_juridique || profile.forme_juridique || null;
   const ca = profile.ca ? parseFloat(profile.ca) : null;
-  const idcc = profile.idcc || null;
+  const idcc = gouv?.idcc || profile.idcc || null;
  
   // Vérification effectif
   if(aide.effectif_min !== null && aide.effectif_min !== undefined && aide.effectif_min !== '') {
