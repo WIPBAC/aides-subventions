@@ -369,6 +369,29 @@
       </div>
     </div>
  
+    <!-- Générateur IA -->
+    <div class="admin-section">
+      <h3>Générer via IA <span class="badge">NOUVEAU</span></h3>
+      <p style="font-size:13px;color:var(--text3);margin-bottom:16px">Collez le texte d'une aide — l'IA extrait automatiquement tous les critères et l'ajoute directement à la base.</p>
+      <textarea id="ai-source" placeholder="Collez ici la description de l'aide ou subvention...&#10;&#10;Ex: «Dans le cadre de la subvention Prévention des risques ergonomiques...»" style="width:100%;background:var(--surface2);border:1px solid var(--border);color:var(--text);font-family:var(--font-body);font-size:13px;padding:12px;border-radius:8px;resize:vertical;min-height:140px;outline:none;line-height:1.6;box-sizing:border-box;margin-bottom:10px"></textarea>
+      <div class="btn-row">
+        <button class="btn-primary" id="ai-generate-btn" onclick="aiGenerate()" style="flex:1">Analyser et ajouter à la base</button>
+        <button class="btn-secondary" onclick="document.getElementById('ai-source').value='';document.getElementById('ai-status').textContent='';document.getElementById('ai-preview').style.display='none'">Effacer</button>
+      </div>
+      <div id="ai-status" style="font-size:12px;color:var(--text3);margin-top:10px;min-height:18px"></div>
+      <div id="ai-preview" style="display:none;margin-top:14px;background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:16px">
+        <div style="font-size:12px;color:var(--text3);margin-bottom:10px;display:flex;align-items:center;justify-content:space-between">
+          <span>Aperçu — vérifiez avant de confirmer</span>
+          <span id="ai-conf-label" style="font-weight:600"></span>
+        </div>
+        <div id="ai-preview-content" style="font-size:13px;line-height:1.8;color:var(--text2)"></div>
+        <div class="btn-row" style="margin-top:12px">
+          <button class="btn-primary" onclick="aiConfirm()" style="flex:1">Confirmer et ajouter</button>
+          <button class="btn-secondary" onclick="document.getElementById('ai-preview').style.display='none'">Annuler</button>
+        </div>
+      </div>
+    </div>
+ 
     <!-- Table aides -->
     <div class="admin-section">
       <h3>Base actuelle <span class="badge" id="count-badge">0</span></h3>
@@ -820,6 +843,44 @@ function dragLeave(){document.getElementById('drop-zone').classList.remove('drag
 function dropFile(e){e.preventDefault();dragLeave();const f=e.dataTransfer.files[0];if(!f||!f.name.endsWith('.json')){showToast('.json uniquement');return;}importJSON({files:[f]});}
 function exportJSON(){const b=new Blob([JSON.stringify(aides,null,2)],{type:'application/json'});const a=document.createElement('a');a.href=URL.createObjectURL(b);a.download='aides-subventions.json';a.click();showToast('Export téléchargé !');}
 function switchTab(name){document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));document.querySelectorAll('.tab-content').forEach(t=>t.classList.remove('active'));document.getElementById('tab-'+name).classList.add('active');event.target.classList.add('active');}
+// ─── GÉNÉRATEUR IA ────────────────────────────────────────
+const AI_SYSTEM=`Tu es un expert en aides et subventions françaises pour entreprises (cabinet BAC Audit Conseil). Analyse le texte et retourne UNIQUEMENT un JSON valide sans markdown ni backticks : {"nom":"","type":"Subvention|Exonération|Prêt|Crédit d'impôt|Aide à l'embauche|Autre","montant_max":null,"conditions":"","actions_financees":[],"effectif_min":null,"effectif_max":null,"ca_min":null,"ca_max":null,"age_min_mois":null,"formes_juridiques":[],"naf_codes":[],"secteur":[],"region":"Toutes","idcc":null,"caractere_employeur":"","tags":[],"source":null,"simulateur":null,"confidence":0.8,"notes":""}. Ne jamais inventer de critères absents. confidence>=0.85 si tout explicite, 0.7 si flou, <0.6 si peu d'infos.`;
+let aiParsed=null;
+async function aiGenerate(){
+  const src=document.getElementById('ai-source').value.trim();
+  if(src.length<20){showToast('Source trop courte');return;}
+  const btn=document.getElementById('ai-generate-btn'),status=document.getElementById('ai-status');
+  btn.disabled=true;btn.textContent='Analyse en cours...';
+  status.style.color='var(--text3)';status.textContent='⏳ Claude analyse la source...';
+  document.getElementById('ai-preview').style.display='none';
+  try{
+    const r=await fetch('https://api.anthropic.com/v1/messages',{method:'POST',headers:{'Content-Type':'application/json','anthropic-version':'2023-06-01'},body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:2000,system:AI_SYSTEM,messages:[{role:'user',content:`Génère la fiche JSON pour cette aide :\n\n${src}`}]})});
+    if(!r.ok){const e=await r.json();throw new Error(e.error?.message||`Erreur ${r.status}`);}
+    const data=await r.json();
+    aiParsed=JSON.parse((data.content[0]?.text||'').replace(/```json?/g,'').replace(/```/g,'').trim());
+    const pct=Math.round((aiParsed.confidence||0.7)*100);
+    const cc=pct>=80?'var(--accent2)':pct>=60?'#f5a623':'var(--danger)';
+    document.getElementById('ai-conf-label').textContent=`Fiabilité : ${pct}%`;
+    document.getElementById('ai-conf-label').style.color=cc;
+    const fields=[['Nom',aiParsed.nom],['Type',aiParsed.type],['Montant',aiParsed.montant_max],['Conditions',(aiParsed.conditions||'').substring(0,200)+((aiParsed.conditions||'').length>200?'…':'')],['NAF',(aiParsed.naf_codes||[]).join(', ')||'—'],['Secteur',(aiParsed.secteur||[]).join(', ')||'—'],['Effectif',aiParsed.effectif_min!=null||aiParsed.effectif_max!=null?`${aiParsed.effectif_min||0} — ${aiParsed.effectif_max||'∞'} sal.`:'—'],['Région',aiParsed.region||'Toutes'],['Tags',(aiParsed.tags||[]).join(', ')||'—']].filter(([,v])=>v&&v!=='—');
+    document.getElementById('ai-preview-content').innerHTML=fields.map(([k,v])=>`<div style="display:flex;gap:8px;margin-bottom:4px"><span style="color:var(--text3);min-width:80px;font-size:12px">${k}</span><span>${v}</span></div>`).join('')+(aiParsed.notes?`<div style="margin-top:8px;font-size:12px;color:var(--text3)">Remarques : ${aiParsed.notes}</div>`:'');
+    document.getElementById('ai-preview').style.display='block';
+    status.style.color='var(--accent2)';status.textContent='✓ Analyse terminée — vérifiez l\'aperçu ci-dessous';
+  }catch(e){status.style.color='var(--danger)';status.textContent='⚠ Erreur : '+e.message;}
+  btn.disabled=false;btn.textContent='Analyser et ajouter à la base';
+}
+function aiConfirm(){
+  if(!aiParsed)return;
+  const sp=v=>Array.isArray(v)?v:[];
+  const id=Math.max(0,...aides.map(a=>a.id))+1;
+  aides.push({id,nom:aiParsed.nom,type:aiParsed.type,montant_max:aiParsed.montant_max||'',conditions:aiParsed.conditions||'',actions_financees:sp(aiParsed.actions_financees),effectif_min:aiParsed.effectif_min??null,effectif_max:aiParsed.effectif_max??null,ca_min:aiParsed.ca_min??null,ca_max:aiParsed.ca_max??null,age_min_mois:aiParsed.age_min_mois??null,caractere_employeur:aiParsed.caractere_employeur||'',formes_juridiques:sp(aiParsed.formes_juridiques),naf_codes:sp(aiParsed.naf_codes),secteur:sp(aiParsed.secteur),region:aiParsed.region||'Toutes',idcc:aiParsed.idcc||null,tags:sp(aiParsed.tags),source:aiParsed.source||null,simulateur:aiParsed.simulateur||null});
+  save();renderAdminTable();buildFilters();
+  document.getElementById('ai-source').value='';
+  document.getElementById('ai-preview').style.display='none';
+  document.getElementById('ai-status').textContent='';
+  aiParsed=null;
+  showToast('Aide ajoutée à la base !');
+}
 function save(){localStorage.setItem('aides_db',JSON.stringify(aides));}
 function showToast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),3200);}
 function renderAll(){populateCabinetSelect();buildFilters();renderManual();}
