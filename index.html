@@ -565,7 +565,7 @@ async function enrichFromDataGouv(siren) {
       effectif_max: res.tranche_effectif_salarie ? trancheToMax(res.tranche_effectif_salarie) : null,
       date_creation: res.date_creation || null,
       age_mois: res.date_creation ? Math.floor((Date.now()-new Date(res.date_creation))/(1000*60*60*24*30)) : null,
-      caractere_employeur: res.caractere_employeur || null,
+      caractere_employeur: res.caractere_employeur || res.siege?.caractere_employeur || null,
       statut: res.etat_administratif || null,
       naf: res.activite_principale || null,
       denomination: res.nom_complet || res.denomination || null,
